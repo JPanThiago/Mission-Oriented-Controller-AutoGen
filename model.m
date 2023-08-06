@@ -25,7 +25,7 @@ function loss = model(budget)
     degree:        the maximum dimension of the lifting function
     delay:         the number of past states used in the lifting function construction
     horizon:       the length of the prediction horizon     
-    name:          the type of the robot to be optimized
+    name:          the type of robot to be optimized
     optimization:  determine whether the current stage is during controller optimization
     matrixD:       the matrix D delivered by BOHB for Koopman operator optimization
     datanoise:     choose whether to identify the Koopman-based model with data sampling noise
