@@ -1,3 +1,6 @@
+%------------------------------------------------------------------%
+%--- The simulation results of path tracking for various robots ---%
+%------------------------------------------------------------------%
 close all;
 clear;
 set(gcf,'unit', 'centimeters','Position', [17, 2, 17, 21])
