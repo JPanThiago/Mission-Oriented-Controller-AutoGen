@@ -1,6 +1,6 @@
-%-----------------------------------------%
-%--- Calculate the objective function ----%
-%-----------------------------------------%
+%----------------------------------------%
+%--- Calculate the objective function ---%
+%----------------------------------------%
 function loss = model(budget)
     addpath(genpath('.\control_test'));
     addpath (genpath('.\parameter'));
