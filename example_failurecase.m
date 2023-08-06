@@ -1,3 +1,6 @@
+%---------------------------------------------------------------------------------------------%
+%--- The failure case that introduces Gaussian noise to simulate environmental uncertainty ---%
+%---------------------------------------------------------------------------------------------%
 close all;
 clear;
 set(gcf,'unit', 'centimeters','Position', [17 , 2, 17, 21])
