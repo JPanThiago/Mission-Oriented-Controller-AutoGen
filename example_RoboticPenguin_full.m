@@ -1,3 +1,6 @@
+%------------------------------------------------------------------------------------------------------------%
+%--- The case of the penguin-inspired robot based on the three-state model after dimensionality reduction ---%
+%------------------------------------------------------------------------------------------------------------%
 close all
 clear
 addpath(genpath('.\control_test'));
