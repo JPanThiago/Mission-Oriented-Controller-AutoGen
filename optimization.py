@@ -23,7 +23,7 @@ parser = argparse.ArgumentParser(description='The mission-oriented controller au
 parser.add_argument('--eta', type=float, default=3)
 parser.add_argument('--min_budget', type=float, default=1)
 parser.add_argument('--max_budget', type=float, default=27)
-parser.add_argument('--random_fraction', type=float, default=1/10)
+parser.add_argument('--random_fraction', type=float, default=0.1)
 parser.add_argument('--n_iterations', type=int, default=50)
 parser.add_argument('--min_points_in_model', type=int, default=None)
 args = parser.parse_args()
