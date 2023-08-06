@@ -4,7 +4,7 @@ function loss = model(budget)
     
     %% Determine the Basic Parameters
     Parameter_robot = textread('parameter_robot.txt', '%s');
-    robot = Parameter_robot;
+    robot = Parameter_robot{1, 1};
     Parameter_Koopman = load('parameter_koopman.txt');
     Parameter_lifting = load('parameter_lifting.txt');
     
@@ -18,7 +18,7 @@ function loss = model(budget)
     % import data from file
     data_name = strcat(robot, '.mat');
     data_path = 'data/';
-    data = load([data_path, data_name{1, 1}]);
+    data = load([data_path, data_name]);
     
     %{
     type:          the type of Koopman model
@@ -71,10 +71,10 @@ function loss = model(budget)
         [~, AUV_3D_loss_avg, ~] = control_AUV_3D(budget, underopt);
         loss = AUV_3D_loss_avg;
     elseif strcmp(robot, 'RoboticPenguin') 
-        [~, RoboticPenguin_loss_avg, ~, ~] = control_RoboticPenguin(budget, underopt);
+        [~, RoboticPenguin_loss_avg] = control_RoboticPenguin(budget, underopt);
         loss = RoboticPenguin_loss_avg;
     else
-        [~, RoboticPenguin_full_loss_avg, ~, ~] = control_RoboticPenguin_full(budget, underopt);
+        [~, RoboticPenguin_full_loss_avg] = control_RoboticPenguin_full(budget, underopt);
         loss = RoboticPenguin_full_loss_avg;
     end
 end
