@@ -1,5 +1,5 @@
 %-------------------------------------------------------------------------%
-%--- The application of the proposed algorithm in AUV 3D path control ----%
+%------------------ The case of 3D path control for AUV ------------------%
 %-------------------------------------------------------------------------%
 close all
 clear 
