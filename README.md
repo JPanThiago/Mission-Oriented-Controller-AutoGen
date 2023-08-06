@@ -114,13 +114,13 @@ Meanwhile, the Python packages that need to be followed include
 Folder  | Description
 | :--- | :---
 control_test  | The control code includes the dynamics and MPC for various robots. Specifically, the subfolder ''[Robotic Penguin](/control_test/RoboticPenguin/)'' contains the dynamics of the penguin-inspired robot.
-data  | The pre-sampling dataset used for training models.
-model_environment  | The un-optimized Koopman model for comparative experiments and environment construction of the TDVPT and soft robot.
-model_koopman  | The optimized Koopman model.
-model_koopman_tem  | The Koopman-based model stored during optimization.
-parameter  | Parameters stored during optimization.
+data  | The pre-sampling dataset for training models.
+model_environment  | The un-optimized Koopman models for comparative experiments and environment construction of the TDVPT and soft robot.
+model_koopman  | The optimized Koopman models.
+model_koopman_tem  | Koopman-based models stored during optimization.
+parameter  | Detailed parameters stored during optimization.
 ref_trajectories  | Soft robot trajectories provided by [Bruder *et al*](https://github.com/ramvasudevan/soft-robot-koopman).
-results  | Several supplementary results include the Koopman-based modeling errors for various robots, the prediction error for the soft robot, and the control error for the soft robot.
+results  | Several supplementary results include the Koopman-based modeling errors for various robots, the prediction curve for the soft robot, and the control error for the soft robot.
 
 </div>
 
