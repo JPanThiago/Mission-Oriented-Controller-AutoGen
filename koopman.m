@@ -1,3 +1,6 @@
+%-----------------------------------------%
+%--- The class of the Koopman operator ---%
+%-----------------------------------------%
 classdef koopman
     properties
         params struct;  % system identification parameters
@@ -233,7 +236,7 @@ classdef koopman
             % random sampling without repetition
             total = size(before.zeta, 1);
             s = RandStream('mlfg6331_64'); 
-            index = datasample(s, 1 : total, size(before.zeta, 1), 'Replace', false); %抽样�?
+            index = datasample(s, 1 : total, size(before.zeta, 1), 'Replace', false); %æ½æ ·æ?
             
             % save snapshotPairs
             snapshotPairs.alpha = before.zeta(index, :); 
