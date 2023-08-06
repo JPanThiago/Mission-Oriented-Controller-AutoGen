@@ -1,3 +1,6 @@
+%--------------------------------------------------------------------------------------------%
+%--- The case of the penguin-inspired robot based on the to-be-identified six-state model ---%
+%--------------------------------------------------------------------------------------------%
 close all
 clear
 addpath(genpath('.\control_test'));
