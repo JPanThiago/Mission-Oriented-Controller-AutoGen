@@ -1,4 +1,5 @@
 function loss = model(budget)
+    % calculate the objective function
     addpath(genpath('.\control_test'));
     addpath (genpath('.\parameter'));
     
