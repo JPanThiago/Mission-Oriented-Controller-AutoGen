@@ -50,7 +50,7 @@ Meanwhile, the Python packages that need to be followed include
   run optimization.py
   ```
 
-  During the optimization process, the objective function will be calculated by calling `model.m`, and the model used in optimization will also be stored in the subfolder ''[model_koopman_tem](/parameter/)''. In particular, the parameters in the Koopman-based model file are described in the following table.
+  During the optimization process, the objective function will be calculated by calling `model.m`, and the model used in optimization will also be stored in the subfolder ''[model_koopman_tem](/model_koopman_tem/)''. In particular, the parameters in the Koopman-based model file are described in the following table.
 
   <div align="center">
    
@@ -60,7 +60,7 @@ Meanwhile, the Python packages that need to be followed include
   degree  | The maximum dimension of the lifting function.
   delay  | The number of past states used in the lifting function construction.
   horizon  | The length of the prediction horizon.
-  name  | The type of the robot to be optimized.
+  name  | The type of robot to be optimized.
   optimization  | Determine whether the current stage is during controller optimization. (`Yes`, `No`).
   matrixD  | The matrix ***D*** delivered by BOHB for Koopman operator optimization.
   datanoise  | Choose whether to identify the Koopman-based model with data sampling noise (`Yes`, `No`).
@@ -85,11 +85,11 @@ Meanwhile, the Python packages that need to be followed include
 **Note**: All the cases are solved online, so it may take a few minutes to obtain the results.
 * Simulation: `run example_simulation.m`, `run example_simulation_datanoise.m`
 
-  This visualization illustrates the simulation results of path tracking for various robots, such as DP, TDVPT, soft robot, and AUV. The primary focus is on examining the impact of the un-optimized Koopman-based Model Predictive Control (MPC) and the proposed control generation algorithm. Additionally, simulation results under data sampling noise are also presented.
+  This visualization illustrates the simulation results of path tracking for various robots, including the DP, TDVPT, soft robot, and AUV. The primary focus is on examining the impact of the un-optimized Koopman-based Model Predictive Control (MPC) and the proposed control generation algorithm. Additionally, simulation results under data sampling noise are also presented.
   
 * Penguin-Inspired Robot: `run example_RoboticPenguin.m`, `run example_RoboticPenguin_full.m`
 
-  This illustration provides the controller auto-generation case for the penguin-inspired robot using both the three-state model after dimensionality reduction and the six-state model.
+  This illustration provides the controller auto-generation case for the penguin-inspired robot using both the three-state dynamics after dimensionality reduction and the to-be-identified six-state model.
 
 * AUV 3D Task: `run example_AUV_3Dtask.m`
 
