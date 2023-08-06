@@ -1,5 +1,5 @@
 # Auto-Generation of Mission-Oriented Robot Controllers Using Bayesian-Based Koopman Operator
-This code can be employed to generate controllers for various robots with different data sources. Meanwhile, example scripts including the damping pendulum (DP), tendon-driven visual pan-tilt (TDVPT), soft robot, autonomous underwater vehicles (AUV), and penguin-inspired robot are provided for recreating these models and controllers on your machine.
+This code can be employed to generate controllers for various robots with diverse data sources. Meanwhile, example scripts including the damping pendulum (DP), tendon-driven visual pan-tilt (TDVPT), soft robot, autonomous underwater vehicles (AUV), and penguin-inspired robot are provided for recreating these models and controllers on your machine.
 
 ![](https://github.com/JPanThiago/mission_oriented_controller_autogeneration_framework/blob/main/fig.alg.jpg)
 
@@ -17,12 +17,12 @@ In particular, the relevant information can be found in [mathworks](https://ww2.
 ![Static Badge](https://img.shields.io/badge/Python-3.8-blue)
 ![Static Badge](https://img.shields.io/badge/MATLAB-R2021a-blue)
 
-Meanwhile, the python packages that need to be followed include
+Meanwhile, the Python packages that need to be followed include
 
 ![Static Badge](https://img.shields.io/badge/hpbandster-0.7.4-blue)
 ![Static Badge](https://img.shields.io/badge/gym-0.26.2-blue)
 ![Static Badge](https://img.shields.io/badge/scipy-1.9.0-blue)
-![Static Badge](https://img.shields.io/badge/bayesian-optimization-1.2.0-blue)
+![Static Badge](https://img.shields.io/badge/bayesian--optimization-1.2.0-blue)
 ![Static Badge](https://img.shields.io/badge/numpy-1.23.1-blue)
 
 ## Optimization Steps
@@ -36,7 +36,7 @@ Meanwhile, the python packages that need to be followed include
   run data_collect.py
   ```
 
-  Integrate robot state-input pairs for subsequent work. The dataset is stored in the subfolder ''[data](/parameter/)''.
+  Integrate robot state-input pairs for subsequent work. The dataset is stored in the subfolder ''[data](/data/)''.
 
   ```
   run data_integrate.m
