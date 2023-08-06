@@ -1,3 +1,6 @@
+%-------------------------------------------------------------------------%
+%--- The application of the proposed algorithm in AUV 3D path control ----%
+%-------------------------------------------------------------------------%
 close all
 clear 
 addpath(genpath('.\control_test'));
