@@ -19,13 +19,13 @@ from commons import MyWorker
 from bayes_opt.util import Colours
 import robot_type
 
-parser = argparse.ArgumentParser(description = 'The mission-oriented controller auto-generation framework')
-parser.add_argument('--eta',   type = float, help='To calculate iteration.',    default = 3)
-parser.add_argument('--min_budget',   type = float,   default = 1)
-parser.add_argument('--max_budget',   type = float,   default = 27)
-parser.add_argument('--random_fraction',   type = float,   default = 1 / 10)
-parser.add_argument('--n_iterations', type = int,   default = 50)
-parser.add_argument('--min_points_in_model', type = int,   default = None)
+parser = argparse.ArgumentParser(description='The mission-oriented controller auto-generation framework')
+parser.add_argument('--eta', type=float, default=3)
+parser.add_argument('--min_budget', type=float, default=1)
+parser.add_argument('--max_budget', type=float, default=27)
+parser.add_argument('--random_fraction', type=float, default=1/10)
+parser.add_argument('--n_iterations', type=int, default=50)
+parser.add_argument('--min_points_in_model', type=int, default=None)
 args = parser.parse_args()
 
 robot = robot_type.show_custom_dialog() # choose the robot type for optimization
