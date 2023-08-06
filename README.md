@@ -1,5 +1,5 @@
 # Auto-Generation of Mission-Oriented Robot Controllers Using Bayesian-Based Koopman Operator
-This code can be used to generate controllers for various robots with different data sources. Meanwhile, example scripts including damping pendulum (DP), tendon-driven visual pan-tilt (TDVPT), soft robot, autonomous underwater vehicles (AUV), and penguin-inspired robot are provided for recreating these models and controllers on your machine.
+This code can be employed to generate controllers for various robots with different data sources. Meanwhile, example scripts including the damping pendulum (DP), tendon-driven visual pan-tilt (TDVPT), soft robot, autonomous underwater vehicles (AUV), and penguin-inspired robot are provided for recreating these models and controllers on your machine.
 
 ![](https://github.com/JPanThiago/mission_oriented_controller_autogeneration_framework/blob/main/fig.alg.jpg)
 
@@ -21,9 +21,9 @@ Meanwhile, the python packages that need to be followed include
 
 ![Static Badge](https://img.shields.io/badge/hpbandster-0.7.4-blue)
 ![Static Badge](https://img.shields.io/badge/gym-0.26.2-blue)
-![Static Badge](https://img.shields.io/badge/numpy-grey)
-![Static Badge](https://img.shields.io/badge/math-grey)
-![Static Badge](https://img.shields.io/badge/time-grey)
+![Static Badge](https://img.shields.io/badge/scipy-1.9.0-blue)
+![Static Badge](https://img.shields.io/badge/bayesian-optimization-1.2.0-blue)
+![Static Badge](https://img.shields.io/badge/numpy-1.23.1-blue)
 
 ## Optimization Steps
 **Note**: When analyzing the results of the paper, you can skip the optimization phase and directly run the subsequent examples. Meanwhile, you can modify the specific parts related to robot dynamics and control according to your individual needs.
