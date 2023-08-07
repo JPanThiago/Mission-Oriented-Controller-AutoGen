@@ -1,3 +1,6 @@
+%--------------------------------------------------------------------------------------------------------%
+%--- The control function of the penguin-inspired robot based on the to-be-identified six-state model ---%
+%--------------------------------------------------------------------------------------------------------%
 function [sim, loss_avg] = control_RoboticPenguin_full(budget, underopt)
     if nargin < 1
         budget = 27;
