@@ -1,3 +1,6 @@
+%------------------------------------------------------------------------------------------------------------------------%
+%--- The control function of the penguin-inspired robot based on the three-state model after dimensionality reduction ---%
+%------------------------------------------------------------------------------------------------------------------------%
 function [sim, loss_avg] = control_RoboticPenguin(budget, underopt)
     if nargin < 1
         budget = 27;
