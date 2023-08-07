@@ -80,7 +80,7 @@ function [sim, loss_avg, loss_avg_un, loss_avg_noise] = control_AUV(budget, unde
         for i = 1 : loopnum
             t = Ts * (i - 1);
             
-            % determine the target state by the line-of-sight guidance
+            % determine the target state based on the line-of-sight guidance
             XOri = SRec(((X'))', i, XOri, n);
             XLift = Fun(XOri);
             [tt, ee] = LOS('AUV', XLift(1), XLift(2), 0, ttlast, jt);
@@ -209,7 +209,7 @@ function [sim, loss_avg, loss_avg_un, loss_avg_noise] = control_AUV(budget, unde
             for i = 1 : loopnum
                 t = Ts * (i - 1);
 
-                % determine the target state by the line-of-sight guidance
+                % determine the target state based on the line-of-sight guidance
                 XOri = SRec(((X'))', i, XOri, n);
                 XLift = Fun(XOri);
                 [tt, ee] = LOS('AUV', XLift(1), XLift(2), 0, ttlast, jt);
@@ -337,7 +337,7 @@ function [sim, loss_avg, loss_avg_un, loss_avg_noise] = control_AUV(budget, unde
             for i = 1 : loopnum
                 t = Ts * (i - 1);
 
-                % determine the target state by the line-of-sight guidance
+                % determine the target state based on the line-of-sight guidance
                 XOri = SRec(((X'))', i, XOri, n);
                 XLift = Fun(XOri);
                 [tt, ee] = LOS('AUV', XLift(1), XLift(2), 0, ttlast, jt);
@@ -466,7 +466,7 @@ function [sim, loss_avg, loss_avg_un, loss_avg_noise] = control_AUV(budget, unde
             for i = 1 : loopnum
                 t = Ts * (i - 1);
 
-                % determine the target state by the line-of-sight guidance
+                % determine the target state based on the line-of-sight guidance
                 XOri = SRec(((X'))', i, XOri, n);
                 XLift = Fun(XOri);
                 [tt, ee] = LOS('AUV', XLift(1), XLift(2), 0, ttlast, jt);
