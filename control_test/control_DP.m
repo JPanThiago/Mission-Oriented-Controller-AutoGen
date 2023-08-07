@@ -62,7 +62,7 @@ function [sim, loss_avg, loss_avg_un, loss_avg_noise] = control_DP(budget, under
         loopnum = targetnum(1, jt);
         for i = 1 : loopnum
             t = Ts * (i - 1);
-            % determination of target state
+            % determine the target state
             if jt == 1
                 Xtarget = 10 / 180 * pi * cos(t) + 5 / 180 * pi * cos(t * 2) - 15 / 180 * pi;
                 Ytarget = -10 / 180 * pi * sin(t) -5 / 180 * pi * sin(t * 2) * 2;
@@ -127,7 +127,7 @@ function [sim, loss_avg, loss_avg_un, loss_avg_noise] = control_DP(budget, under
             for i = 1 : loopnum
                 t = Ts * (i - 1);
 
-                % determination of target state
+                % determine the target state
                 if jt == 1
                     Xtarget = 10 / 180 * pi * cos(t) + 5 / 180 * pi * cos(t * 2) - 15 / 180 * pi;
                     Ytarget = -10 / 180 * pi * sin(t) -5 / 180 * pi * sin(t * 2) * 2;
@@ -190,7 +190,7 @@ function [sim, loss_avg, loss_avg_un, loss_avg_noise] = control_DP(budget, under
             loopnum = targetnum(1, jt);
             for i = 1 : loopnum
                 t = Ts * (i - 1);
-                % determination of target state
+                % determine the target state
                 if jt == 1
                     Xtarget = 10 / 180 * pi * cos(t) + 5 / 180 * pi * cos(t * 2) - 15 / 180 * pi;
                     Ytarget = -10 / 180 * pi * sin(t) -5 / 180 * pi * sin(t * 2) * 2;
@@ -252,7 +252,7 @@ function [sim, loss_avg, loss_avg_un, loss_avg_noise] = control_DP(budget, under
             loopnum = targetnum(1, jt);
             for i = 1 : loopnum
                 t = Ts * (i - 1);
-                % determination of target state
+                % determine the target state
                 if jt == 1
                     Xtarget = 10 / 180 * pi * cos(t) + 5 / 180 * pi * cos(t * 2) - 15 / 180 * pi;
                     Ytarget = -10 / 180 * pi * sin(t) -5 / 180 * pi * sin(t * 2) * 2;
