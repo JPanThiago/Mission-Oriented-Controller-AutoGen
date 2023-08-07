@@ -1,4 +1,6 @@
-% Initialize the penguin-inspired robot
+%---------------------------------------------%
+%--- Initialize the penguin-inspired robot ---%
+%---------------------------------------------%
 global glideParas;
 glideParas = struct;
 
