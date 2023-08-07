@@ -76,7 +76,7 @@ function [sim, loss_avg, loss_avg_un, loss_avg_noise] = control_TDVPT(num, budge
         delta_inte = [0; 0];
         delta = [0; 0];
         XOri = zeros((n + 1) * length(X) + n, 1);
-        X2 = zeros((nd + 1) * length(X) + nd, 1);
+        XDyn = zeros((nd + 1) * length(X) + nd, 1);
         
         % start robot tasks
         for i = 1 : targetnum(1, jt);
@@ -132,14 +132,14 @@ function [sim, loss_avg, loss_avg_un, loss_avg_noise] = control_TDVPT(num, budge
             X_t = [Xtarget; Ytarget];
             
             % solve input
-            X2 = SRec(((X'))', i, X2, nd);
+            XDyn = SRec(((X'))', i, XDyn, nd);
             XOri = SRec(((X'))', i, XOri, n);
-            X2Lift = Fun2(X2);
+            XDynLift = Fun2(XDyn);
             XLift = Fun(XOri);
             [U, delta_inte, delta] = LMPC('TDVPT', XLift, U, Np, A, B, C, t, jt, X_t, kp, ki, kd, delta_inte, delta, 0, Ts, QQ, RR, PP);
             
             % update robot states
-            X = dynamic(X2Lift, U, DynA, DynB, DynC) + Discons + Disgaus;
+            X = dynamic(XDynLift, U, DynA, DynB, DynC) + Discons + Disgaus;
             
             % store robot state information
             [v, ~] = min(sqrt((sim.(struct_name{1, jt}).Xt(:, 1) - X(1, 1)).^2 + (sim.(struct_name{1, jt}).Xt(:, 2) - X(2, 1)).^2));
@@ -184,7 +184,7 @@ function [sim, loss_avg, loss_avg_un, loss_avg_noise] = control_TDVPT(num, budge
             delta_inte = [0; 0];
             delta = [0; 0];
             XOri = zeros((n + 1) * length(X) + n, 1);
-            X2 = zeros((nd + 1) * length(X) + nd, 1);
+            XDyn = zeros((nd + 1) * length(X) + nd, 1);
 
             % start robot tasks
             for i = 1 : targetnum(1, jt)
@@ -240,14 +240,14 @@ function [sim, loss_avg, loss_avg_un, loss_avg_noise] = control_TDVPT(num, budge
                 X_t = [Xtarget; Ytarget];
 
                 % solve input
-                X2 = SRec(((X'))', i, X2, nd);
+                XDyn = SRec(((X'))', i, XDyn, nd);
                 XOri = SRec(((X'))', i, XOri, n);
-                X2Lift = Fun2(X2);
+                XDynLift = Fun2(XDyn);
                 XLift = Fun(XOri);
                 [U, delta_inte, delta] = LMPC('TDVPT', XLift, U, Np, A, B, C, t, jt, X_t, kp, ki, kd, delta_inte, delta, 0, Ts, QQ, RR, PP);
                 
                 % update robot states
-                X = dynamic(X2Lift, U, DynA, DynB, DynC) + Discons + Disgaus;
+                X = dynamic(XDynLift, U, DynA, DynB, DynC) + Discons + Disgaus;
 
                 % store robot state information
                 [v, ~] = min(sqrt((sim.(struct_name{1, jt}).Xt(:, 1) - X(1, 1)).^2 + (sim.(struct_name{1, jt}).Xt(:, 2) - X(2, 1)).^2));
@@ -291,7 +291,7 @@ function [sim, loss_avg, loss_avg_un, loss_avg_noise] = control_TDVPT(num, budge
             delta_inte = [0; 0];
             delta = [0; 0];
             XOri = zeros((n + 1) * length(X) + n, 1);
-            X2 = zeros((nd + 1) * length(X) + nd, 1);
+            XDyn = zeros((nd + 1) * length(X) + nd, 1);
 
             % start robot tasks
             for i = 1 : targetnum(1, jt)
@@ -347,14 +347,14 @@ function [sim, loss_avg, loss_avg_un, loss_avg_noise] = control_TDVPT(num, budge
                 X_t = [Xtarget; Ytarget];
 
                 % solve input
-                X2 = SRec(((X'))', i, X2, nd);
+                XDyn = SRec(((X'))', i, XDyn, nd);
                 XOri = SRec(((X'))', i, XOri, n);
-                X2Lift = Fun2(X2);
+                XDynLift = Fun2(XDyn);
                 XLift = Fun(XOri);
                 [U, delta_inte, delta] = LMPC('TDVPT', XLift, U, Np, A, B, C, t, jt, X_t, kp, ki, kd, delta_inte, delta, 0, Ts, QQ, RR, PP);
                 
                 % update robot states
-                X = dynamic(X2Lift, U, DynA, DynB, DynC) + Discons + Disgaus;
+                X = dynamic(XDynLift, U, DynA, DynB, DynC) + Discons + Disgaus;
 
                 % store robot state information
                 [v, ~] = min(sqrt((sim.(struct_name{1, jt}).Xt(:, 1) - X(1, 1)).^2 + (sim.(struct_name{1, jt}).Xt(:, 2) - X(2, 1)).^2));
@@ -399,7 +399,7 @@ function [sim, loss_avg, loss_avg_un, loss_avg_noise] = control_TDVPT(num, budge
             delta_inte = [0; 0];
             delta = [0; 0];
             XOri = zeros((n + 1) * length(X) + n, 1);
-            X2 = zeros((nd + 1) * length(X) + nd, 1);
+            XDyn = zeros((nd + 1) * length(X) + nd, 1);
 
             % start robot tasks
             for i = 1 : targetnum(1, jt)
@@ -455,9 +455,9 @@ function [sim, loss_avg, loss_avg_un, loss_avg_noise] = control_TDVPT(num, budge
                 X_t = [Xtarget; Ytarget];
 
                 % solve input
-                X2 = SRec(((X'))', i, X2, nd);
+                XDyn = SRec(((X'))', i, XDyn, nd);
                 XOri = SRec(((X'))', i, XOri, n);
-                X2Lift = Fun2(X2);
+                XDynLift = Fun2(XDyn);
                 XLift = Fun(XOri);
                 [U, delta_inte, delta] = LMPC('TDVPT', XLift, U, Np, A, B, C, t, jt, X_t, kp, ki, kd, delta_inte, delta, 0, Ts, QQ, RR, PP);
 
@@ -467,7 +467,7 @@ function [sim, loss_avg, loss_avg_un, loss_avg_noise] = control_TDVPT(num, budge
                 else
                     amp = 2.5;
                 end
-                X = dynamic(X2Lift, U, DynA, DynB, DynC) + Discons + Disgaus + amp * randn(2, 1);
+                X = dynamic(XDynLift, U, DynA, DynB, DynC) + Discons + Disgaus + amp * randn(2, 1);
 
                 % store robot state information
                 [v, ~] = min(sqrt((sim.(struct_name{1, jt}).Xt(:, 1) - X(1, 1)).^2 + (sim.(struct_name{1, jt}).Xt(:, 2) - X(2, 1)).^2));
