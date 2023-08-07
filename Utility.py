@@ -8,7 +8,7 @@ import random
 from scipy.integrate import odeint
 from gym import spaces
 
-# This class describes the dynamics of autonomous underwater vehicles
+# This class describes the dynamics for the planar task of autonomous underwater vehicles
 class AUV():
     def __init__(self) -> None:
         self.Xu = 4
@@ -67,7 +67,7 @@ class AUV():
         C[1, 4] = c2
         C[2, 5] = 1
         C[3, 3] = (-Xu - Du * abs(u)) / m11
-        C[3, 5] = m22/m11*v
+        C[3, 5] = m22 / m11 * v
         C[4, 4] = (-Yv - Dv * abs(v)) / m22
         C[4, 5] = -m11 / m22 * u
         C[5, 3] = -m22 / m33 * v
@@ -220,22 +220,22 @@ class AUV_3D():
         spsi = np.sin(psi)
 
         C = np.zeros((12, 12))
-        C[0, 6] = cpsi*ctheta
-        C[0, 7] = -spsi*cphi+cpsi*stheta*sphi
-        C[0, 8] = spsi*sphi+cpsi*stheta*cphi
-        C[1, 6] = spsi*ctheta
-        C[1, 7] = cpsi*cphi+spsi*stheta*sphi
-        C[1, 8] = -cpsi*sphi+spsi*stheta*cphi
+        C[0, 6] = cpsi * ctheta
+        C[0, 7] = -spsi * cphi + cpsi * stheta * sphi
+        C[0, 8] = spsi * sphi + cpsi * stheta * cphi
+        C[1, 6] = spsi * ctheta
+        C[1, 7] = cpsi * cphi + spsi * stheta * sphi
+        C[1, 8] = -cpsi * sphi + spsi * stheta * cphi
         C[2, 6] = -stheta
-        C[2, 7] = ctheta*sphi
-        C[2, 8] = ctheta*cphi
+        C[2, 7] = ctheta * sphi
+        C[2, 8] = ctheta * cphi
         C[3, 9] = 1
-        C[3, 10] = sphi*stheta/ctheta
-        C[3, 11] = cphi*stheta/ctheta
+        C[3, 10] = sphi * stheta / ctheta
+        C[3, 11] = cphi * stheta / ctheta
         C[4, 10] = cphi
         C[4, 11] = -sphi
-        C[5, 10] = sphi/ctheta
-        C[5, 11] = cphi/ctheta
+        C[5, 10] = sphi / ctheta
+        C[5, 11] = cphi / ctheta
 
         C[6, 6] = (-Xu - Du * abs(u)) / m11
         C[6, 10] = -m33 * w / m11
@@ -324,7 +324,7 @@ class data_collecter():
             self.env.reset()
 
     def collect_koopman_data(self, traj_num):
-        train_data = np.empty((traj_num,self.Nstates + self.udim + 1))
+        train_data = np.empty((traj_num, self.Nstates + self.udim + 1))
         if self.env_name.startswith("DP"):
             self.dt = 0.02
             s0 = self.env.reset()
