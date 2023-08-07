@@ -1,5 +1,7 @@
-function [ Y ] = dynamic_DP(t, X, UExe)
-    % dynamics of the damping pendulum
+%--------------------------------------------%
+%--- The dynamics of the damping pendulum ---%
+%--------------------------------------------%
+function Y = dynamic_DP(t, X, UExe)
     th1 = X(1);
     dth1 = X(2);
     
