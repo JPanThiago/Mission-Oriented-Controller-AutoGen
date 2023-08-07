@@ -73,7 +73,7 @@ classdef koopman
             end
         end
         
-       %% Data Processing
+        %% Data Processing
         % merge data
         function data_merged = merge_trials(~, data)
             if iscell(data)
@@ -91,7 +91,7 @@ classdef koopman
             end
         end
         
-       %% Save Linear Model
+        %% Save Linear Model
         function obj = save_model(obj, ~)     
             if strcmp(obj.optimization, 'Yes') == 1
                 classname = ['model_', obj.name];
@@ -108,7 +108,7 @@ classdef koopman
             save(fname, 'koopman_model');
         end
         
-       %% Save Linear Model to be Optimized
+        %% Save Linear Model to be Optimized
         function obj = save_model_tem(obj, ~)     
             if strcmp(obj.optimization, 'Yes') == 1
                 classname = ['model_', obj.name];
@@ -125,7 +125,7 @@ classdef koopman
             save(fname, 'koopman_model');
         end
         
-       %% Determine the Lifting Function Dictionary
+        %% Determine the Lifting Function Dictionary
         % determine lifting function properties
         function obj = def_observables(obj, degree, D)
             % define the state variable with delays
@@ -186,8 +186,8 @@ classdef koopman
             end
         end
 
-       %% Fit Koopman Operator and A,B,C System Matrices
-        % organize data format.
+        %% Fit Koopman Operator and A, B, C System Matrices
+        % organize data format
         function [data_out, zeta] = get_zeta(obj, data_in)
             data_out = data_in;
             for i = obj.params.nd + 1 : size(data_in.y, 1)
@@ -341,7 +341,7 @@ classdef koopman
             results.sim.pret = pret;
         end
         
-        % calculate prediction and real data based on attenuation factor
+        % calculate prediction and real data based on the attenuation factor
         function [datalength, preydata, realdata] = get_error(obj, simdata, realdata)
             % extract real data
             real = zeros(size(simdata.prey, 1), size(simdata.prey, 2));
