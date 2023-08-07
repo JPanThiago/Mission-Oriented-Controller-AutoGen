@@ -10,6 +10,7 @@ function [sim, loss_avg, loss_avg_un, loss_avg_noise] = control_AUV(budget, unde
         failurecase = 'No';
     end
     warning off
+    
     %% Preparation
     % import model
     if strcmp(underopt, 'No')
@@ -29,7 +30,7 @@ function [sim, loss_avg, loss_avg_un, loss_avg_noise] = control_AUV(budget, unde
     
     % determine controller parameters
     if strcmp(underopt, 'No')
-        % determine controller parameters
+        % the controller parameters obtained after underopt
         kp = 3.5;
         ki = 0.07;
         kd = 1;
