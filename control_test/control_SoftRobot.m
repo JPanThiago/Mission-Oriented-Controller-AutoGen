@@ -1,3 +1,6 @@
+%----------------------------------------------%
+%--- The control function of the soft robot ---%
+%----------------------------------------------%
 function [sim, loss_avg, loss_avg_un, loss_avg_noise] = control_softrobot(budget, underopt, datanoise, noise, failurecase)
     if nargin < 1
         budget = 27;
