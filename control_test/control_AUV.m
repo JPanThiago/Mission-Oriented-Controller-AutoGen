@@ -76,8 +76,7 @@ function [sim, loss_avg, loss_avg_un, loss_avg_noise] = control_AUV(budget, unde
         XOri = zeros((n + 1) * length(X) + n, 1);
         
         % start robot tasks
-        loopnum = targetnum(1, jt);
-        for i = 1 : loopnum
+        for i = 1 : targetnum(1, jt)
             t = Ts * (i - 1);
             
             % determine the target state based on the line-of-sight guidance
@@ -205,8 +204,7 @@ function [sim, loss_avg, loss_avg_un, loss_avg_noise] = control_AUV(budget, unde
             XOri = zeros((n + 1) * length(X) + n, 1);
             
             % start robot tasks
-            loopnum = targetnum(1, jt);
-            for i = 1 : loopnum
+            for i = 1 : targetnum(1, jt)
                 t = Ts * (i - 1);
 
                 % determine the target state based on the line-of-sight guidance
@@ -333,8 +331,7 @@ function [sim, loss_avg, loss_avg_un, loss_avg_noise] = control_AUV(budget, unde
             XOri = zeros((n + 1) * length(X) + n, 1);
             
             % start robot tasks
-            loopnum = targetnum(1, jt);
-            for i = 1 : loopnum
+            for i = 1 : targetnum(1, jt)
                 t = Ts * (i - 1);
 
                 % determine the target state based on the line-of-sight guidance
@@ -462,8 +459,7 @@ function [sim, loss_avg, loss_avg_un, loss_avg_noise] = control_AUV(budget, unde
             XOri = zeros((n + 1) * length(X) + n, 1);
             
             % start robot tasks
-            loopnum = targetnum(1, jt);
-            for i = 1 : loopnum
+            for i = 1 : targetnum(1, jt)
                 t = Ts * (i - 1);
 
                 % determine the target state based on the line-of-sight guidance
