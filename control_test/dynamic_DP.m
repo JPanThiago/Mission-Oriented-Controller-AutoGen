@@ -2,12 +2,12 @@
 %--- The dynamics of the damping pendulum ---%
 %--------------------------------------------%
 function Y = dynamic_DP(t, X, UExe)
-    th1 = X(1);
-    dth1 = X(2);
+    theta = X(1);
+    dtheta = X(2);
     
     g = 9.8;
-    l1 = 1;
-    m1 = 1;
+    l = 1;
+    m = 1;
     b = 1;
-    Y = [dth1; -g/l1*sin(th1)-b*dth1/(m1*l1*l1)+cos(th1)*UExe(1,1)/(m1*l1)];
+    Y = [dtheta; -g / l * sin(theta) - b * dtheta / (m * l * l) + cos(theta) * UExe(1, 1) / (m * l)];
 end
