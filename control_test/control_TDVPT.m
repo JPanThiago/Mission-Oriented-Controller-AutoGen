@@ -1,3 +1,6 @@
+%----------------------------------------------------------------%
+%--- The control function of the tendon-driven visual pan-tilt---%
+%----------------------------------------------------------------%
 function [sim, loss_avg, loss_avg_un, loss_avg_noise] = control_TDVPT(num, budget, underopt, datanoise, noise, failurecase)
     if nargin < 2
         budget = 27;
