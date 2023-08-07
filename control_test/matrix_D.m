@@ -1,5 +1,7 @@
+%------------------------------------------------------------------------%
+%--- The matrix D delivered by BOHB for Koopman operator optimization ---%
+%------------------------------------------------------------------------%
 function D = matrix_D(Parameter_lifting, Nx)
-    % calculate the matrix D delivered by BOHB for Koopman operator optimization
     D = eye(length(Parameter_lifting) + Nx);
     D1 = diag(D);
     D1(Nx + 1 : length(Parameter_lifting) + Nx, 1) = Parameter_lifting';
