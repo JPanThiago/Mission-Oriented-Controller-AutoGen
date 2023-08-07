@@ -70,7 +70,7 @@ function [sim, loss_avg, loss_avg_un] = control_AUV_3D(budget, underopt)
     for i = 1 : targetnum
         t = Ts * (i - 1);
 
-        % determine the target state based on LOS guidance
+        % determine the target state based on the line-of-sight guidance
         XOri = SRec(((X'))', i, XOri, n);
         XLift = Fun(XOri);
         [tt, ee] = LOS('AUV_3D', XLift(1), XLift(2), XLift(3), ttlast, 0);
@@ -163,7 +163,7 @@ function [sim, loss_avg, loss_avg_un] = control_AUV_3D(budget, underopt)
         for i = 1 : targetnum
             t = Ts * (i - 1);
 
-            % determine the target state based on LOS guidance
+            % determine the target state based on the line-of-sight guidance
             XOri = SRec(((X'))', i, XOri, n);
             XLift = Fun(XOri);
             [tt, ee] = LOS('AUV_3D', XLift(1), XLift(2), XLift(3), ttlast, 0);
