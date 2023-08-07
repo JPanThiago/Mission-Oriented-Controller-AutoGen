@@ -29,8 +29,8 @@ W_old = 0;
 glideParas.Sxx = 0.019839 + 2 * 0.002 + 2 * 0.000088;
 glideParas.Syy = 0.077069 + 0.000772;
 glideParas.Szz = 0.078168 + 2 * 0.007005 + 2 * 0.00539; 
-glideParas.Ab = [glideParas.Sxx,              0,              0;
-                              0, glideParas.Syy,              0;
+glideParas.Ab = [glideParas.Sxx,              0,               0;
+                              0, glideParas.Syy,               0;
                               0,              0, glideParas.Szz];            
 
 glideParas.mall = 7.4;
