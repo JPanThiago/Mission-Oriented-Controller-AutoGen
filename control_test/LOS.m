@@ -1,6 +1,6 @@
-%--------------------------------------------------%
-%--- The function of the line-of-sight guidance ---%
-%--------------------------------------------------%
+%------------------------------%
+%--- Line-of-sight guidance ---%
+%------------------------------%
 function [tt1, ee] = LOS(robot, px, py, pz, ttlast, jt)
     % determine the target state through the line-of-sight guidance
     if strcmp(robot, 'AUV')
