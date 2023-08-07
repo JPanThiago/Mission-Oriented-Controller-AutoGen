@@ -7,6 +7,7 @@ function [sim, loss_avg, loss_avg_un] = control_AUV_3D(budget, underopt)
         underopt = 'No';
     end
     warning off
+    
     %% Preparation
     % import model
     if strcmp(underopt, 'No')
@@ -24,8 +25,9 @@ function [sim, loss_avg, loss_avg_un] = control_AUV_3D(budget, underopt)
     Ts = 0.05;
     tspan = [0 Ts];
     
-    % acquire the controller parameters under optimization
+    % determine controller parameters
     if strcmp(underopt, 'No')
+        % the controller parameters obtained after underopt
         kp = 6;
         ki = 0;
         kd = 0;
@@ -45,6 +47,7 @@ function [sim, loss_avg, loss_avg_un] = control_AUV_3D(budget, underopt)
     end
 
     %% Example_Optimized
+    % initialization
     targetnum = 4500;
     targetnum = floor(targetnum / 27 * budget);
     w = 0.05;
@@ -52,7 +55,6 @@ function [sim, loss_avg, loss_avg_un] = control_AUV_3D(budget, underopt)
     U = [0.2; 0; 0];
     X = [0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0];
     phi_ref_old = 0;
-
     delta_inte = [0; 0];
     delta = [0; 0];
     ttlast = 0;
@@ -64,18 +66,19 @@ function [sim, loss_avg, loss_avg_un] = control_AUV_3D(budget, underopt)
     sim.Xt = [];
     sim.tt = [];
 
+    % start robot tasks
     for i = 1 : targetnum
         t = Ts * (i - 1);
 
-        % determine the target state based on LOS
+        % determine the target state based on LOS guidance
         XOri = SRec(((X'))', i, XOri, n);
         XLift = Fun(XOri);
         [tt, ee] = LOS('AUV_3D', XLift(1), XLift(2), XLift(3), ttlast, 0);
         if isempty(tt)
             tt = ttlast;
         end
-        ttlast = tt;    
-
+        ttlast = tt;  
+        
         R = 1.5;
         h = 1;
         x0 = 0;
@@ -85,7 +88,6 @@ function [sim, loss_avg, loss_avg_un] = control_AUV_3D(budget, underopt)
         y_ref = R * cos(w * tt) + y0;
         z_ref = h * w * tt + z0;
         phi_ref = atan2(- sin(w * tt), cos(w * tt));
-
         while phi_ref - phi_ref_old < - pi
             phi_ref = phi_ref + 2 * pi;
         end
@@ -94,21 +96,25 @@ function [sim, loss_avg, loss_avg_un] = control_AUV_3D(budget, underopt)
         end
         X_t = [x_ref, y_ref, z_ref, 0, 0, phi_ref];
 
+        % solve input
         [U, delta_inte, delta] = LMPC('AUV_3D', XLift, U, Np, A, B, C, tt, 0, X_t, kp, ki, kd, delta_inte, delta, phi_ref_old, Ts, QQ, RR, PP);
         phi_ref_old = phi_ref;
+
+        % update robot states
         [~, y] = ode23(@(t, y) dynamic_AUV_3D(t, y, U), tspan, X);
         X = y(end, :)';
 
+        % store robot state information
         sim.ee = [sim.ee; ee];
         sim.X = [sim.X; X'];
         sim.Xt = [sim.Xt; X_t];
         sim.U = [sim.U; U'];
         sim.tt = [sim.tt; t + Ts];
 
+        % check if the task is completed in advance
         if X(1, 1) > 0 && sqrt(X(1, 1)^2 + X(2, 1)^2) < 0.05 && i > 1000
             break;
         end
-        
     end
     sim.loss = sum(abs(sim.ee)) / i;
     loss = loss + sim.loss;
@@ -117,8 +123,8 @@ function [sim, loss_avg, loss_avg_un] = control_AUV_3D(budget, underopt)
     
     %% Example_Unoptimized
     if strcmp(underopt, 'No')
+        % Preparation for unoptimized Koopman-based MPC test
         model = load(['model_environment\', 'AUV_3D_type-poly_degree-2_delay-1.mat']);
-
         A = model.koopman_model.model.A;
         B = model.koopman_model.model.B;
         C = model.koopman_model.model.C;
@@ -129,6 +135,7 @@ function [sim, loss_avg, loss_avg_un] = control_AUV_3D(budget, underopt)
         Ts = 0.05;
         tspan = [0 Ts];
 
+        % determine controller parameters
         kp = 0;
         ki = 0;
         kd = 0;
@@ -137,10 +144,10 @@ function [sim, loss_avg, loss_avg_un] = control_AUV_3D(budget, underopt)
         RR = 1000;
         PP = 1;
 
+        % initialization
         U = [0.2; 0; 0];
         X = [0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0];
         phi_ref_old = 0;
-
         delta_inte = [0; 0];
         delta = [0; 0];
         ttlast = 0;
@@ -152,10 +159,11 @@ function [sim, loss_avg, loss_avg_un] = control_AUV_3D(budget, underopt)
         sim.Xt_un = [];
         sim.tt_un = [];
 
+        % start robot tasks
         for i = 1 : targetnum
             t = Ts * (i - 1);
 
-            % determine the target state based on LOS
+            % determine the target state based on LOS guidance
             XOri = SRec(((X'))', i, XOri, n);
             XLift = Fun(XOri);
             [tt, ee] = LOS('AUV_3D', XLift(1), XLift(2), XLift(3), ttlast, 0);
@@ -173,7 +181,6 @@ function [sim, loss_avg, loss_avg_un] = control_AUV_3D(budget, underopt)
             y_ref = R * cos(w * tt) + y0;
             z_ref = h * w * tt + z0;
             phi_ref = atan2(- sin(w * tt), cos(w * tt));
-
             while phi_ref - phi_ref_old < - pi
                 phi_ref = phi_ref + 2 * pi;
             end
@@ -182,21 +189,25 @@ function [sim, loss_avg, loss_avg_un] = control_AUV_3D(budget, underopt)
             end
             X_t = [x_ref, y_ref, z_ref, 0, 0, phi_ref];
 
+            % solve input
             [U, delta_inte, delta] = LMPC('AUV_3D', XLift, U, Np, A, B, C, tt, 0, X_t, kp, ki, kd, delta_inte, delta, phi_ref_old, Ts, QQ, RR, PP);
             phi_ref_old = phi_ref;
+
+            % update robot states
             [~, y] = ode23(@(t, y) dynamic_AUV_3D(t, y, U), tspan, X);
             X = y(end, :)';
 
+            % store robot state information
             sim.ee_un = [sim.ee_un; ee];
             sim.X_un = [sim.X_un; X'];
             sim.Xt_un = [sim.Xt_un; X_t];
             sim.U_un = [sim.U_un; U'];
             sim.tt_un = [sim.tt_un; t + Ts];
 
+            % check if the task is completed in advance
             if X(1, 1) > 0 && sqrt(X(1, 1)^2 + X(2, 1)^2) < 0.05 && i > 1000
                 break;
             end
-
         end
         sim.loss_un = sum(abs(sim.ee_un)) / i;
         loss = loss + sim.loss_un;
