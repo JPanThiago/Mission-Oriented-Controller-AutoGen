@@ -196,7 +196,7 @@ set(gca, 'gridlinestyle', '-', 'linewidth', 0.5)
 set(gca, 'xgrid', 'on')
 set(gca, 'ygrid', 'on')
 
-%% Plot SoftRobot
+%% Plot Soft Robot
 subplot(4,3,7)
 plot([softrobot.pacman.Xt(:, 1); softrobot.pacman.Xt(:, 1)], [softrobot.pacman.Xt(:, 2); softrobot.pacman.Xt(:, 2)], '-', 'LineWidth', 6, 'MarkerSize', 4, 'Color', [0.8, 0.8, 0.8]);
 hold on
