@@ -1,5 +1,7 @@
-function [ Y ] = dynamic_AUV_3D(t, X, UExe)
-    % dynamics of autonomous underwater vehicles for 3D task
+%-------------------------------------------%
+%--- The dynamics of the AUV for 3D task ---%
+%-------------------------------------------%
+function Y = dynamic_AUV_3D(t, X, UExe)
     phi = X(4);
     theta = X(5);
     psi = X(6);
