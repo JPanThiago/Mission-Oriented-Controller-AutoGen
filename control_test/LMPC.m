@@ -1,6 +1,6 @@
-%--------------------------------------%
-%--- The function of the linear MPC ---%
-%--------------------------------------%
+%------------------%
+%--- Linear MPC ---%
+%------------------%
 function [U, delta_inte, delta] = LMPC(robot, XLift, U, Np, ALift, BLift, CLift, t, jt, X_t, kp, ki, kd, delta_inte, delta_old, phi_ref_old, Ts, QQ, RR, PP)
     %% Basic Parameters
     Nx = length(XLift); % the number of state variables
