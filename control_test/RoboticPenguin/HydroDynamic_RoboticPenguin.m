@@ -1,5 +1,7 @@
+%---------------------------------------------------%
+%--- Hydrodynamics of the penguin-inspired robot ---%
+%---------------------------------------------------%
 function x = HydroDynamic_RoboticPenguin(t, x, u, Cdx, Clx, Cmx, cap, cdp,cah, cdh, cab, cdb, car, f, amp_heave, amp_pitch, Ts)
-    % calculate the hydrodynamics of the penguin-inspired robot
     global glideParas ;
     global left right U_old W_old;
     roll = x(4);
