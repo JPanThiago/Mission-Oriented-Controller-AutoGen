@@ -24,7 +24,7 @@ right = 2;
 U_old = 0;
 W_old = 0;
 
-%% Body coefficient
+%% Body Coefficient
 % units m^2
 glideParas.Sxx = 0.019839 + 2 * 0.002 + 2 * 0.000088;
 glideParas.Syy = 0.077069 + 0.000772;
@@ -38,7 +38,7 @@ glideParas.J = [0.018713,        0,         0;
                        0, 0.234470,         0;
                        0,        0, 0.238203];
                     
-%% Wing coefficient   
+%% Wing Coefficient   
 glideParas.leftWingPt = [0.066; -0.198; 0];
 glideParas.rightWingPt = [0.066; 0.198; 0];
 global Vp Ap kappa1 kappa2 varkappa1 varkappa2 beta;
