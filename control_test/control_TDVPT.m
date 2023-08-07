@@ -10,6 +10,7 @@ function [sim, loss_avg, loss_avg_un, loss_avg_noise] = control_TDVPT(num, budge
         failurecase = 'No';
     end
     warning off
+    
     %% Preparation
     % import model
     if strcmp(underopt, 'No')
@@ -32,8 +33,9 @@ function [sim, loss_avg, loss_avg_un, loss_avg_noise] = control_TDVPT(num, budge
     loss = 0;
     Ts = 0.02;
     
-    % the controller parameters obtained after underopt
+    % determine controller parameters
     if strcmp(underopt, 'No')
+        % the controller parameters obtained after underopt
         kp = 0.004;
         ki = 0.015;
         kd = 0.0005;
@@ -62,12 +64,12 @@ function [sim, loss_avg, loss_avg_un, loss_avg_noise] = control_TDVPT(num, budge
     dis6 = dnoise.dis_TDVPT.dis6;
 
     %% Example_Optimized
+    % initialization
     w = 0.5;
     targetnum = [1257, 1885, 2514, 629, 1885, 629];
     targetnum = floor(targetnum / 27 * budget);
     [~, sim, ~, ~, ~] = store();
     struct_name = {'t1' 't2' 't3' 't4' 't5' 't6'};
-
     for jt = 1 : num
         U = [0; 0];
         X = [0; 0];
@@ -76,11 +78,11 @@ function [sim, loss_avg, loss_avg_un, loss_avg_noise] = control_TDVPT(num, budge
         XOri = zeros((n + 1) * length(X) + n, 1);
         X2 = zeros((nd + 1) * length(X) + nd, 1);
         
-        loopnum = targetnum(1, jt);
-        for i = 1 : loopnum
+        % start robot tasks
+        for i = 1 : targetnum(1, jt);
             t = Ts * (i - 1);
             
-            % determination of target state
+            % determine the target state
             if jt == 1
                 Disgaus = dis1(i, :)';
                 Discons = [-0.3; -1];
@@ -129,13 +131,17 @@ function [sim, loss_avg, loss_avg_un, loss_avg_noise] = control_TDVPT(num, budge
             end
             X_t = [Xtarget; Ytarget];
             
+            % solve input
             X2 = SRec(((X'))', i, X2, nd);
             XOri = SRec(((X'))', i, XOri, n);
             X2Lift = Fun2(X2);
             XLift = Fun(XOri);
             [U, delta_inte, delta] = LMPC('TDVPT', XLift, U, Np, A, B, C, t, jt, X_t, kp, ki, kd, delta_inte, delta, 0, Ts, QQ, RR, PP);
+            
+            % update robot states
             X = dynamic(X2Lift, U, DynA, DynB, DynC) + Discons + Disgaus;
             
+            % store robot state information
             [v, ~] = min(sqrt((sim.(struct_name{1, jt}).Xt(:, 1) - X(1, 1)).^2 + (sim.(struct_name{1, jt}).Xt(:, 2) - X(2, 1)).^2));
             sim.(struct_name{1, jt}).ee = [sim.(struct_name{1, jt}).ee; v];
             sim.(struct_name{1, jt}).X = [sim.(struct_name{1, jt}).X; X'];
@@ -162,6 +168,7 @@ function [sim, loss_avg, loss_avg_un, loss_avg_noise] = control_TDVPT(num, budge
         loss = 0;
         Ts = 0.02;
 
+        % determine controller parameters
         kp = 0;
         ki = 0;
         kd = 0;
@@ -170,6 +177,7 @@ function [sim, loss_avg, loss_avg_un, loss_avg_noise] = control_TDVPT(num, budge
         RR = 1000;
         PP = 1;
 
+        % initialization
         for jt = 1 : num
             U = [0; 0];
             X = [0; 0];
@@ -178,11 +186,11 @@ function [sim, loss_avg, loss_avg_un, loss_avg_noise] = control_TDVPT(num, budge
             XOri = zeros((n + 1) * length(X) + n, 1);
             X2 = zeros((nd + 1) * length(X) + nd, 1);
 
-            loopnum = targetnum(1, jt);
-            for i = 1 : loopnum
+            % start robot tasks
+            for i = 1 : targetnum(1, jt)
                 t = Ts * (i - 1);
 
-                % determination of target state
+                % determine the target state
                 if jt == 1
                     Disgaus = dis1(i, :)';
                     Discons = [-0.3; -1];
@@ -231,13 +239,17 @@ function [sim, loss_avg, loss_avg_un, loss_avg_noise] = control_TDVPT(num, budge
                 end
                 X_t = [Xtarget; Ytarget];
 
+                % solve input
                 X2 = SRec(((X'))', i, X2, nd);
                 XOri = SRec(((X'))', i, XOri, n);
                 X2Lift = Fun2(X2);
                 XLift = Fun(XOri);
                 [U, delta_inte, delta] = LMPC('TDVPT', XLift, U, Np, A, B, C, t, jt, X_t, kp, ki, kd, delta_inte, delta, 0, Ts, QQ, RR, PP);
+                
+                % update robot states
                 X = dynamic(X2Lift, U, DynA, DynB, DynC) + Discons + Disgaus;
 
+                % store robot state information
                 [v, ~] = min(sqrt((sim.(struct_name{1, jt}).Xt(:, 1) - X(1, 1)).^2 + (sim.(struct_name{1, jt}).Xt(:, 2) - X(2, 1)).^2));
                 sim.(struct_name{1, jt}).ee_un = [sim.(struct_name{1, jt}).ee_un; v];
                 sim.(struct_name{1, jt}).X_un = [sim.(struct_name{1, jt}).X_un; X'];
@@ -252,7 +264,7 @@ function [sim, loss_avg, loss_avg_un, loss_avg_noise] = control_TDVPT(num, budge
     
     %% Example with Data Noise
     if strcmp(datanoise, 'Yes')
-        % Preparation for Koopman-based MPC test with data noise
+        % Preparation for optimized Koopman-based MPC test with sampling data noise
         model = load(['model_koopman\', 'model_TDVPT_noise.mat']);
         A = model.koopman_model.model.A;
         B = model.koopman_model.model.B;
@@ -263,6 +275,7 @@ function [sim, loss_avg, loss_avg_un, loss_avg_noise] = control_TDVPT(num, budge
         loss = 0;
         Ts = 0.02;
 
+        % determine controller parameters
         kp = 0.003;
         ki = 0.015;
         kd = 0.002;
@@ -271,6 +284,7 @@ function [sim, loss_avg, loss_avg_un, loss_avg_noise] = control_TDVPT(num, budge
         RR = 300;
         PP = 9;
 
+        % initialization
         for jt = 1 : num
             U = [0; 0];
             X = [0; 0];
@@ -279,11 +293,11 @@ function [sim, loss_avg, loss_avg_un, loss_avg_noise] = control_TDVPT(num, budge
             XOri = zeros((n + 1) * length(X) + n, 1);
             X2 = zeros((nd + 1) * length(X) + nd, 1);
 
-            loopnum = targetnum(1, jt);
-            for i = 1 : loopnum
+            % start robot tasks
+            for i = 1 : targetnum(1, jt)
                 t = Ts * (i - 1);
 
-                % determination of target state
+                % determine the target state
                 if jt == 1
                     Disgaus = dis1(i, :)';
                     Discons = [-0.3; -1];
@@ -332,13 +346,17 @@ function [sim, loss_avg, loss_avg_un, loss_avg_noise] = control_TDVPT(num, budge
                 end
                 X_t = [Xtarget; Ytarget];
 
+                % solve input
                 X2 = SRec(((X'))', i, X2, nd);
                 XOri = SRec(((X'))', i, XOri, n);
                 X2Lift = Fun2(X2);
                 XLift = Fun(XOri);
                 [U, delta_inte, delta] = LMPC('TDVPT', XLift, U, Np, A, B, C, t, jt, X_t, kp, ki, kd, delta_inte, delta, 0, Ts, QQ, RR, PP);
+                
+                % update robot states
                 X = dynamic(X2Lift, U, DynA, DynB, DynC) + Discons + Disgaus;
 
+                % store robot state information
                 [v, ~] = min(sqrt((sim.(struct_name{1, jt}).Xt(:, 1) - X(1, 1)).^2 + (sim.(struct_name{1, jt}).Xt(:, 2) - X(2, 1)).^2));
                 sim.(struct_name{1, jt}).ee_noise = [sim.(struct_name{1, jt}).ee_noise; v];
                 sim.(struct_name{1, jt}).X_noise = [sim.(struct_name{1, jt}).X_noise; X'];
@@ -353,6 +371,7 @@ function [sim, loss_avg, loss_avg_un, loss_avg_noise] = control_TDVPT(num, budge
     
     %% Example with Environmental Disturbance
     if strcmp(noise, 'Yes')
+        % Preparation for optimized Koopman-based MPC test with environmental disturbance
         rng(1)
         model = load(['model_koopman\', 'model_TDVPT.mat']);
         A = model.koopman_model.model.A;
@@ -364,6 +383,7 @@ function [sim, loss_avg, loss_avg_un, loss_avg_noise] = control_TDVPT(num, budge
         loss = 0;
         Ts = 0.02;
 
+        % determine controller parameters
         kp = 0.004;
         ki = 0.015;
         kd = 0.0005;
@@ -372,6 +392,7 @@ function [sim, loss_avg, loss_avg_un, loss_avg_noise] = control_TDVPT(num, budge
         RR = 300;
         PP = 0;
         
+        % initialization
         for jt = 1 : num
             U = [0; 0];
             X = [0; 0];
@@ -380,11 +401,11 @@ function [sim, loss_avg, loss_avg_un, loss_avg_noise] = control_TDVPT(num, budge
             XOri = zeros((n + 1) * length(X) + n, 1);
             X2 = zeros((nd + 1) * length(X) + nd, 1);
 
-            loopnum = targetnum(1, jt);
-            for i = 1 : loopnum
+            % start robot tasks
+            for i = 1 : targetnum(1, jt)
                 t = Ts * (i - 1);
 
-                % determination of target state
+                % determine the target state
                 if jt == 1
                     Disgaus = dis1(i, :)';
                     Discons = [-0.3; -1];
@@ -433,11 +454,14 @@ function [sim, loss_avg, loss_avg_un, loss_avg_noise] = control_TDVPT(num, budge
                 end
                 X_t = [Xtarget; Ytarget];
 
+                % solve input
                 X2 = SRec(((X'))', i, X2, nd);
                 XOri = SRec(((X'))', i, XOri, n);
                 X2Lift = Fun2(X2);
                 XLift = Fun(XOri);
                 [U, delta_inte, delta] = LMPC('TDVPT', XLift, U, Np, A, B, C, t, jt, X_t, kp, ki, kd, delta_inte, delta, 0, Ts, QQ, RR, PP);
+
+                % update robot states with environmental disturbance
                 if strcmp(failurecase, 'No')
                     amp = 0.25;
                 else
@@ -445,6 +469,7 @@ function [sim, loss_avg, loss_avg_un, loss_avg_noise] = control_TDVPT(num, budge
                 end
                 X = dynamic(X2Lift, U, DynA, DynB, DynC) + Discons + Disgaus + amp * randn(2, 1);
 
+                % store robot state information
                 [v, ~] = min(sqrt((sim.(struct_name{1, jt}).Xt(:, 1) - X(1, 1)).^2 + (sim.(struct_name{1, jt}).Xt(:, 2) - X(2, 1)).^2));
                 sim.(struct_name{1, jt}).ee_noise = [sim.(struct_name{1, jt}).ee_noise; v];
                 sim.(struct_name{1, jt}).X_noise = [sim.(struct_name{1, jt}).X_noise; X'];
