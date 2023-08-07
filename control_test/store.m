@@ -1,5 +1,7 @@
+%-----------------------------------------------------%
+%--- Create structures to store simulation results ---%
+%-----------------------------------------------------%
 function [sim1, sim2, sim3, sim4, sim5] = store()
-    % Initialize the structure to store simulation results
     sim1 = struct;
     U = 0;
     X = [0; 0];
