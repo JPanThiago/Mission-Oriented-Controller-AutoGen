@@ -120,7 +120,7 @@ model_koopman  | The optimized Koopman models.
 model_koopman_tem  | Koopman-based models stored during optimization.
 parameter  | Detailed parameters stored during optimization.
 ref_trajectories  | Soft robot trajectories provided by [Bruder *et al*](https://github.com/ramvasudevan/soft-robot-koopman).
-results  | Several supplementary results include the Koopman-based modeling errors for various robots, the prediction curve for the soft robot, and the control error for the soft robot.
+results  | Several supplementary results include the Koopman-based modeling errors for various robots, the prediction error curve for the soft robot, and the control error for the soft robot.
 
 </div>
 
