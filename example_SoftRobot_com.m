@@ -8,7 +8,7 @@ addpath(genpath('.\control_test'));
 
 [softrobot, softrobot_loss_avg_un] = control_SoftRobot_com();
 
-%% Plot SoftRobot
+%% Plot Soft Robot
 subplot(1,3,1)
 p1 = plot([softrobot.pacman.Xt(:, 1); softrobot.pacman.Xt(:, 1)], [softrobot.pacman.Xt(:, 2); softrobot.pacman.Xt(:, 2)], '-', 'LineWidth', 6, 'MarkerSize', 4, 'Color', [0.72, 0.72, 0.72]);
 hold on
