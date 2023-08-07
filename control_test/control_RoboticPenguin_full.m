@@ -8,6 +8,7 @@ function [sim, loss_avg] = control_RoboticPenguin_full(budget, underopt)
     end
     warning off
     run('RP_Initialization.m');
+    
     %% Preparation
     % import model
     if strcmp(underopt, 'No')
@@ -76,7 +77,7 @@ function [sim, loss_avg] = control_RoboticPenguin_full(budget, underopt)
         for i = 1 : targetnum(1, jt)
             t = Ts * (i - 1);
 
-            % determine the target state by the line-of-sight guidance
+            % determine the target state based on LOS guidance
             if mod(i - 1, num) == 0
                 XX = XTem / num;
                 TT = Ts * num;
