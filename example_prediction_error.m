@@ -1,6 +1,6 @@
-%----------------------------------------------------%
-%--- The case of calculating the prediction error ---%
-%----------------------------------------------------%
+%----------------------------------------%
+%--- The case of the prediction error ---%
+%----------------------------------------%
 close all;
 clear;
 addpath (genpath('control_test'))
