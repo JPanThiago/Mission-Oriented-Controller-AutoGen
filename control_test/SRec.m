@@ -1,7 +1,7 @@
 %--------------------------------------------------------------%
 %--- Organize the data for calculating the lifting function ---%
 %--------------------------------------------------------------%
-function [ XOri ] = SRec(X, i, XOri, n)
+function XOri = SRec(X, i, XOri, n)
     if n > 0
         if i == 1
             XOri(1 : size(X, 1), 1) = X;
