@@ -15,9 +15,9 @@ function F = calcWingHydroForces(U, W, r, lp, lt, dlp, dlt, ddlp, ddlt, flag, Ac
                   0,            cos(lp),            sin(lp); 
             sin(lt), -cos(lt) * sin(lp), cos(lt) * cos(lp)];
 
-    dRB2P = [dlt * -sin(lt),  dlt * cos(lt) * sin(lp) + dlp * sin(lt) * cos(lp),  -dlt * cos(lt) * cos(lp) + dlp * sin(lt) * sin(lp); 
-                          0,                                     -dlp * sin(lp),                                       dlp * cos(lp); 
-              dlt * cos(lt),  dlt * sin(lt) * sin(lp) - dlp * cos(lt) * cos(lp), -dlt * sin(lt) * cos(lp) - dlp * cos(lt) * sin(lp)];
+    dRB2P = [dlt * -sin(lt), dlt * cos(lt) * sin(lp) + dlp * sin(lt) * cos(lp),  -dlt * cos(lt) * cos(lp) + dlp * sin(lt) * sin(lp); 
+                          0,                                    -dlp * sin(lp),                                       dlp * cos(lp); 
+              dlt * cos(lt), dlt * sin(lt) * sin(lp) - dlp * cos(lt) * cos(lp), -dlt * sin(lt) * cos(lp) - dlp * cos(lt) * sin(lp)];
 
     UU = RB2P * (U + cross(W, r));  
     AcceA = RB2P * (Acce(1 : 3) + cross(Acce(4 : 6),r)) + dRB2P * (U + cross(W, r));
