@@ -24,8 +24,9 @@ function [sim, loss_avg] = control_RoboticPenguin_full(budget, underopt)
     loss = 0;
     Ts = 0.01;
     
-    % the controller parameters obtained after underopt
+    % determine controller parameters
     if strcmp(underopt, 'No')
+        % the controller parameters obtained after underopt
         kp = 7;
         ki = 1.1;
         kd = 105;
@@ -44,20 +45,20 @@ function [sim, loss_avg] = control_RoboticPenguin_full(budget, underopt)
         PP = Parameter_controller(7);
     end
     
-    %% example
+    %% Example_Optimized
+    % initialization
     targetnum = [8000, 14000];
     targetnum = floor(targetnum / 27 * budget);
     [~, ~, ~, ~, sim] = store();
     struct_name = {'t1' 't2'};
     w = 0.05;
-    
     for jt = 1 : 2
         delta_inte = 0;
         delta = 0;
         ttlast = 0;
         U = 0;
         XX = [0; 0; 0; 0; 0; 0];
-        XOri = zeros((n + 1) * length(XX) + n, 1); % 后面的n是加的时间
+        XOri = zeros((n + 1) * length(XX) + n, 1); 
         x = zeros(12, 1);
         num = 30;
         if jt == 1
@@ -71,8 +72,11 @@ function [sim, loss_avg] = control_RoboticPenguin_full(budget, underopt)
             phi_ref_old = pi/2;
         end
 
+        % start robot tasks
         for i = 1 : targetnum(1, jt)
             t = Ts * (i - 1);
+
+            % determine the target state by the line-of-sight guidance
             if mod(i - 1, num) == 0
                 XX = XTem / num;
                 TT = Ts * num;
@@ -110,20 +114,25 @@ function [sim, loss_avg] = control_RoboticPenguin_full(budget, underopt)
                 end
                 X_t = [x_ref, y_ref, phi_ref];
 
+                % solve input
                 [U, delta_inte, delta] = LMPC('RoboticPenguin_full', XLift, U, Np, A, B, C, tt, jt, X_t, kp, ki, kd, delta_inte, delta, phi_ref_old, TT, QQ, RR, PP);
                 phi_ref_old = phi_ref;
                 XTem = [0; 0; 0; 0; 0; 0];
-                
             end
+
+            % update robot states
             x = Dynamic_RoboticPenguin(U, t, x, Ts);
             X = [x(1); x(2); x(6); x(7); x(8); x(12)];
 
+            % store robot state information
             sim.(struct_name{1, jt}).ee = [sim.(struct_name{1, jt}).ee; ee];
             sim.(struct_name{1, jt}).X = [sim.(struct_name{1, jt}).X; X'];
             sim.(struct_name{1, jt}).U = [sim.(struct_name{1, jt}).U; U'];
             sim.(struct_name{1, jt}).t = [sim.(struct_name{1, jt}).t; t + TT];
 
             XTem = XTem + X;
+
+            % check if the task is completed in advance
             if jt == 1
                 if X(1, 1) > 0 && sqrt(X(1, 1)^2 + (X(2, 1) - 1)^2)  < 0.15 && i > 1000
                     break;
