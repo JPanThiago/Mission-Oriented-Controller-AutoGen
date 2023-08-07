@@ -1,5 +1,7 @@
+%-------------------------------------------------------------%
+%--- Kinematics and dynamics of the penguin-inspired robot ---%
+%-------------------------------------------------------------%
 function x = Dynamic_RoboticPenguin(U, t, x, Ts)
-    % kinematics and dynamics of the penguin-inspired robot
     % parameters of the penguin-inspired robot after system identification
     Cdx = 13.5;
     Clx = 0.6;
