@@ -47,7 +47,7 @@ function x = HydroDynamic_RoboticPenguin(t, x, u, Cdx, Clx, Cmx, cap, cdp,cah, c
     rrm = rPt1 + CvtMatX(-rp) * (rPt2 + CvtMatY(-rt) * rPt3);
     llm = lPt1 + CvtMatX(-lp) * (lPt2 + CvtMatY(-lt) * lPt3);
 
-    %% calculate hydrodynamics
+    %% Calculate hydrodynamics
     % hydrodynamics w.r.t body-frame
     bodyHydroFrc = calcBodyHydroForces(U, W, Cd, glideParas.Ab, Cl, Cm, pitch);
     leftWingHydroFrc = calcWingHydroForces(U, W, llm, lp, lt, dlp, dlt, ddlp, ddlt, left, Acce, cap, cdp,cah, cdh, cab, cdb, car);
@@ -55,7 +55,7 @@ function x = HydroDynamic_RoboticPenguin(t, x, u, Cdx, Clx, Cmx, cap, cdp,cah, c
     tailWingHydroFrc = calcTailHydroForces(tdu, tlr, U, W);
     Fhydro = bodyHydroFrc + leftWingHydroFrc + rightWingHydroFrc + tailWingHydroFrc;
 
-    %% dynamic equation
+    %% Dynamic equation
     % dynamic evolution of the penguin-inspired robot
     Rb2g = CvtMatZ(yaw) * CvtMatY(pitch) * CvtMatX(roll);
     Rw = cvtBW2IW(roll, pitch);
