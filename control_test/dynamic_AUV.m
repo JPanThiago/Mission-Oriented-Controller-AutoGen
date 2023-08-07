@@ -1,5 +1,7 @@
+%----------------------------------------------%
+%--- The dynamics of the AUV ---%
+%----------------------------------------------%
 function Y = dynamic_AUV(t, X, UExe)
-    % dynamics of autonomous underwater vehicles
     phi = X(3);
     u = X(4);
     v = X(5);
