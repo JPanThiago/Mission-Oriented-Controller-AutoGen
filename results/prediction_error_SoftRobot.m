@@ -1,3 +1,6 @@
+%------------------------------------------------------------------------------%
+%--- Supplementary results for the prediction error curve of the soft robot ---%
+%------------------------------------------------------------------------------%
 close all;
 clear;
 addpath (genpath('..\'));
