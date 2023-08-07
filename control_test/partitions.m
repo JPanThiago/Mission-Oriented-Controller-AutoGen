@@ -1,5 +1,7 @@
+%----------------------------------------------------------------------------------------------%
+%--- Extract the list of all partitions of a number as integer sums of a list of candidates ---%
+%----------------------------------------------------------------------------------------------%
 function plist = partitions(total_sum,candidate_set,max_count,fixed_count)
-% extracts the list of all partitions of a number as integer sums of a list of candidates
 % usage: plist = partitions(total_sum,candidate_set)
 % usage: plist = partitions(total_sum,candidate_set,max_count,fixed_count)
 %
