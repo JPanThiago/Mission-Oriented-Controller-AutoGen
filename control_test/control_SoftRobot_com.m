@@ -1,3 +1,6 @@
+%-------------------------------------------------------------------------------------------------------------------------%
+%--- The control function of the soft robot where the Koopman-based control model is identical to the interaction model---%
+%-------------------------------------------------------------------------------------------------------------------------%
 function [sim, loss_avg_un] = control_SoftRobot_com()
     %% Example_Unoptimized
     % Preparation for unoptimized Koopman-based MPC test
