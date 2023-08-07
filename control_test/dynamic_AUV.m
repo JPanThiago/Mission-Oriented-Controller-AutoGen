@@ -20,10 +20,10 @@ function Y = dynamic_AUV(t, X, UExe)
     A1 = [cos(phi), -sin(phi), 0;
           sin(phi),  cos(phi), 0;
                  0,         0, 1];
-    A2 = [(-Xu - Du * abs(u)) / m11,                         0,             m22 / m11 * v;
-                                  0, (-Yv - Dv * abs(v)) / m22,            -m11 / m22 * u;
+    A2 = [(-Xu - Du * abs(u)) / m11,                         0,              m22 / m11 * v;
+                                  0, (-Yv - Dv * abs(v)) / m22,             -m11 / m22 * u;
                      -m22 / m33 * v,             m11 / m33 * u, (-Nr - Dr * abs(r)) / m33];         
-    A = [zeros(3, 3), A1; 
+    A = [zeros(3, 3),  A1; 
          zeros(3, 3), A2];
     B = zeros(6, 2);
     B(4, 1) = 1 / m11;
