@@ -10,7 +10,7 @@ from Utility import data_collecter
 def main():
     data_collect = data_collecter(args.env)
     
-    # save data
+    # Save data
     for i in range(60):
         file_path = "data/" + args.env + "/" + '%s.txt' % i
         f1 = open(file_path, 'w')
@@ -19,21 +19,21 @@ def main():
         f1.close()
 
 if __name__ == "__main__":
-    # collect data for damping pendulum
+    # Collect data for damping pendulum
     parser = argparse.ArgumentParser()
     parser.add_argument("--env", type=str, default="DP")
     parser.add_argument("--traj_num", type=int, default=1000)
     args = parser.parse_args()
     main()
     
-    # collect data for autonomous underwater vehicles
+    # Collect data for autonomous underwater vehicles
     parser = argparse.ArgumentParser()
     parser.add_argument("--env", type=str, default="AUV")
     parser.add_argument("--traj_num", type=int, default=1000)
     args = parser.parse_args()
     main()
     
-    # collect data for the 3D task of autonomous underwater vehicles
+    # Collect data for the 3D task of autonomous underwater vehicles
     parser = argparse.ArgumentParser()
     parser.add_argument("--env", type=str, default="AUV_3D")
     parser.add_argument("--traj_num", type=int, default=1000)
