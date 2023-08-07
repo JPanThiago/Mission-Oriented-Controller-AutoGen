@@ -99,7 +99,7 @@ Meanwhile, the Python packages that need to be followed include
 
   This case introduces Gaussian noise to simulate environmental uncertainty in real-world scenarios. As the noise increases, the proposed method cannot complete the task.
 
-* Comparative Case: `run example_SoftRobot.m`
+* Comparative Case: `run example_SoftRobot_com.m`
 
   This case depicts simulation results for the soft robot, where the Koopman-based control model is identical to the interaction model, similar to the work of [Bruder *et al*.](https://github.com/ramvasudevan/soft-robot-koopman) for comparison.
 
