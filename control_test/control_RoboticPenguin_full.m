@@ -77,10 +77,11 @@ function [sim, loss_avg] = control_RoboticPenguin_full(budget, underopt)
         for i = 1 : targetnum(1, jt)
             t = Ts * (i - 1);
 
-            % determine the target state based on LOS guidance
             if mod(i - 1, num) == 0
                 XX = XTem / num;
                 TT = Ts * num;
+
+                % determine the target state based on the line-of-sight guidance
                 XOri = SRec(((XX'))', i, XOri, n);
                 XLift = Fun(XOri);
                 [tt, ee] = LOS('RoboticPenguin', XLift(1), XLift(2), 0, ttlast, jt);
