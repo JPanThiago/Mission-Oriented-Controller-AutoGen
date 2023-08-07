@@ -1,5 +1,7 @@
+%--------------------------------------------------------%
+%--- Body hydrodynamics of the penguin-inspired robot ---%
+%--------------------------------------------------------%
 function F = calcBodyHydroForces(U, W, Cd, Ab, Cl, Cm, pitch)
-    % calculating body hydrodynamics of the penguin-inspired robot
     %{
     U:      linear velocity of body w.r.t body-frame
     F:      6 * 1 force-torque vector
