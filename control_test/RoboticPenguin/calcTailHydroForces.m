@@ -1,5 +1,7 @@
+%--------------------------------------------------------%
+%--- Tail hydrodynamics of the penguin-inspired robot ---%
+%--------------------------------------------------------%
 function F =  calcTailHydroForces(tud, tlr, U, W)
-    % calculating tail hydrodynamics of the penguin-inspired robot
     %{
     tud:  the angle of the tail turning up and down
     tlr:  the angle of the tail turning left and right
