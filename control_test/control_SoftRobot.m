@@ -10,6 +10,7 @@ function [sim, loss_avg, loss_avg_un, loss_avg_noise] = control_softrobot(budget
         failurecase = 'No';
     end
     warning off
+    
     %% Preparation
     % import model
     if strcmp(underopt, 'No')
@@ -32,8 +33,9 @@ function [sim, loss_avg, loss_avg_un, loss_avg_noise] = control_softrobot(budget
     loss = 0;
     Ts = 0.083023892317701;
 
-    % the controller parameters obtained after underopt
+    % determine controller parameters
     if strcmp(underopt, 'No')
+        % the controller parameters obtained after underopt
         kp = 0.06;
         ki = 0.15;
         kd = 0;
@@ -59,16 +61,15 @@ function [sim, loss_avg, loss_avg_un, loss_avg_noise] = control_softrobot(budget
     disbloc = dnoise.dis_softrobot.blockM;
 
     %% Example_Optimized
+    % initialization
     struct_name = {'pacman' 'star' 'blockM'};
     [~, ~, sim, ~, ~] = store();
     address = {'pacman_c11_r3_90sec.mat' 'star_c11_8x8_120sec.mat' 'blockM_c11_6x6_180sec.mat'};
-    
     for jt = 1 : 3
         temp = load(['ref_trajectories\', address{1, jt}]);
         ref = temp.ref;
         ref_Ts = resample_ref(ref);
         ref_sc = ref_Ts;
-        
         U = [0; 0; 0];
         X = [1; 1];
         XOri = ones((n + 1) * length(X) + n, 1);
@@ -77,10 +78,11 @@ function [sim, loss_avg, loss_avg_un, loss_avg_noise] = control_softrobot(budget
         delta_inte = [0; 0];
         delta = [0; 0];
         
+        % start robot tasks
         while k < floor(size(ref_sc, 1) / 27 * budget)
             t = k * Ts;
 
-            % determination of target state
+            % determine the target state
             if k + Np <= size(ref_sc, 1)
                 ref = ref_sc(k : k + Np, :);
             else
@@ -97,13 +99,15 @@ function [sim, loss_avg, loss_avg_un, loss_avg_noise] = control_softrobot(budget
             end
             X_t = reshape(ref', [Np * size(ref, 2), 1]);
             
+            % solve input
             XDyn = SRec(((X'))', k, XDyn, nd);
             XOri = SRec(((X'))', k, XOri, n);
             XDynLift = Fun2(XDyn);
             XLift = Fun(XOri);
             [U, delta_inte, delta] = LMPC('SoftRobot', XLift, U, Np, A, B, C, t, 0, X_t, kp, ki, kd, delta_inte, delta, 0, Ts, QQ, RR, PP);
-            X = dynamic(XDynLift, U, DynA, DynB, DynC);
             
+            % update robot states
+            X = dynamic(XDynLift, U, DynA, DynB, DynC);
             if jt == 1
                 Disgaus = dispac(k, :)';
                 Discons = [0.2; -0.3];
@@ -117,6 +121,8 @@ function [sim, loss_avg, loss_avg_un, loss_avg_noise] = control_softrobot(budget
             X = X + Discons + Disgaus;
             
             k = k + 1;
+
+            % store robot state information
             [v, ~] = min(sqrt((ref_sc(:, 1) - X(1, 1)).^2 + (ref_sc(:, 2) - X(2, 1)).^2));
             sim.(struct_name{1, jt}).ee = [sim.(struct_name{1, jt}).ee; v];
             sim.(struct_name{1, jt}).X = [sim.(struct_name{1, jt}).X; X'];
@@ -144,6 +150,7 @@ function [sim, loss_avg, loss_avg_un, loss_avg_noise] = control_softrobot(budget
         loss = 0;
         Ts = 0.083023892317701;
 
+        % determine controller parameters
         kp = 0;
         ki = 0;
         kd = 0;
@@ -152,6 +159,7 @@ function [sim, loss_avg, loss_avg_un, loss_avg_noise] = control_softrobot(budget
         RR = 1000;
         PP = 1;
 
+        % initialization
         for jt = 1 : 3
             temp = load(['ref_trajectories\', address{1, jt}]);
             ref = temp.ref;
@@ -165,10 +173,11 @@ function [sim, loss_avg, loss_avg_un, loss_avg_noise] = control_softrobot(budget
             delta_inte = [0; 0];
             delta = [0; 0];
 
+            % start robot tasks
             while k < floor(size(ref_sc, 1))
                 t = k * Ts;
 
-                % determination of target state
+                % determine the target state
                 if k + Np <= size(ref_sc, 1)
                     ref = ref_sc(k : k + Np, :);
                 else
@@ -185,13 +194,15 @@ function [sim, loss_avg, loss_avg_un, loss_avg_noise] = control_softrobot(budget
                 end
                 X_t = reshape(ref', [Np * size(ref, 2), 1]);
 
+                % solve input
                 XDyn = SRec(((X'))', k, XDyn, nd);
                 XOri = SRec(((X'))', k, XOri, n);
                 XDynLift = Fun2(XDyn);
                 XLift = Fun(XOri);
                 [U, delta_inte, delta] = LMPC('SoftRobot', XLift, U, Np, A, B, C, t, 0, X_t, kp, ki, kd, delta_inte, delta, 0, Ts, QQ, RR, PP);
+                
+                % update robot states
                 X = dynamic(XDynLift, U, DynA, DynB, DynC);
-
                 if jt == 1
                     Disgaus = dispac(k, :)';
                     Discons = [0.2; -0.3];
@@ -205,6 +216,8 @@ function [sim, loss_avg, loss_avg_un, loss_avg_noise] = control_softrobot(budget
                 X = X + Discons + Disgaus;
 
                 k = k + 1;
+
+                % store robot state information
                 [v, ~] = min(sqrt((ref_sc(:, 1) - X(1, 1)).^2 + (ref_sc(:, 2) - X(2, 1)).^2));
                 sim.(struct_name{1, jt}).ee_un = [sim.(struct_name{1, jt}).ee_un; v];
                 sim.(struct_name{1, jt}).X_un = [sim.(struct_name{1, jt}).X_un; X'];
@@ -219,6 +232,7 @@ function [sim, loss_avg, loss_avg_un, loss_avg_noise] = control_softrobot(budget
     
     %% Example with Data Noise
     if strcmp(datanoise, 'Yes')
+        % Preparation for optimized Koopman-based MPC test with sampling data noise
         model = load(['model_koopman\', 'model_SoftRobot_noise.mat']);
         A = model.koopman_model.model.A;
         B = model.koopman_model.model.B;
@@ -229,6 +243,7 @@ function [sim, loss_avg, loss_avg_un, loss_avg_noise] = control_softrobot(budget
         loss = 0;
         Ts = 0.083023892317701;
         
+        % determine controller parameters
         kp = 0.065;
         ki = 0.15;
         kd = 0.014;
@@ -237,12 +252,12 @@ function [sim, loss_avg, loss_avg_un, loss_avg_noise] = control_softrobot(budget
         RR = 300;
         PP = 2;
         
+        % initialization
         for jt = 1 : 3
             temp = load(['ref_trajectories\', address{1, jt}]);
             ref = temp.ref;
             ref_Ts = resample_ref(ref);
             ref_sc = ref_Ts;
-
             U = [0; 0; 0];
             X = [1; 1];
             XOri = ones((n + 1) * length(X) + n, 1);
@@ -251,10 +266,11 @@ function [sim, loss_avg, loss_avg_un, loss_avg_noise] = control_softrobot(budget
             delta_inte = [0; 0];
             delta = [0; 0];
 
+            % start robot tasks
             while k < floor(size(ref_sc, 1) / 27 * budget)
                 t = k * Ts;
 
-                % determination of target state
+                % determine the target state
                 if k + Np <= size(ref_sc, 1)
                     ref = ref_sc(k : k + Np, :);
                 else
@@ -271,13 +287,15 @@ function [sim, loss_avg, loss_avg_un, loss_avg_noise] = control_softrobot(budget
                 end
                 X_t = reshape(ref', [Np * size(ref, 2), 1]);
 
+                % solve input
                 XDyn = SRec(((X'))', k, XDyn, nd);
                 XOri = SRec(((X'))', k, XOri, n);
                 XDynLift = Fun2(XDyn);
                 XLift = Fun(XOri);
                 [U, delta_inte, delta] = LMPC('SoftRobot', XLift, U, Np, A, B, C, t, 0, X_t, kp, ki, kd, delta_inte, delta, 0, Ts, QQ, RR, PP);
+                
+                % update robot states
                 X = dynamic(XDynLift, U, DynA, DynB, DynC);
-
                 if jt == 1
                     Disgaus = dispac(k, :)';
                     Discons = [0.2; -0.3];
@@ -291,6 +309,8 @@ function [sim, loss_avg, loss_avg_un, loss_avg_noise] = control_softrobot(budget
                 X = X + Discons + Disgaus;
 
                 k = k + 1;
+
+                % store robot state information
                 [v, ~] = min(sqrt((ref_sc(:, 1) - X(1, 1)).^2 + (ref_sc(:, 2) - X(2, 1)).^2));
                 sim.(struct_name{1, jt}).ee_noise = [sim.(struct_name{1, jt}).ee_noise; v];
                 sim.(struct_name{1, jt}).X_noise = [sim.(struct_name{1, jt}).X_noise; X'];
@@ -305,6 +325,7 @@ function [sim, loss_avg, loss_avg_un, loss_avg_noise] = control_softrobot(budget
     
     %% Example with Environmental Disturbance
     if strcmp(noise, 'Yes')
+        % Preparation for optimized Koopman-based MPC test with environmental disturbance
         rng(1)
         model = load(['model_koopman\', 'model_SoftRobot.mat']);
         A = model.koopman_model.model.A;
@@ -316,6 +337,7 @@ function [sim, loss_avg, loss_avg_un, loss_avg_noise] = control_softrobot(budget
         loss = 0;
         Ts = 0.083023892317701;
         
+        % determine controller parameters
         kp = 0.06;
         ki = 0.15;
         kd = 0;
@@ -324,12 +346,12 @@ function [sim, loss_avg, loss_avg_un, loss_avg_noise] = control_softrobot(budget
         RR = 1700;
         PP = 0;
         
+        % initialization
         for jt = 1 : 3
             temp = load(['ref_trajectories\', address{1, jt}]);
             ref = temp.ref;
             ref_Ts = resample_ref(ref);
             ref_sc = ref_Ts;
-
             U = [0; 0; 0];
             X = [1; 1];
             XOri = ones((n + 1) * length(X) + n, 1);
@@ -338,10 +360,11 @@ function [sim, loss_avg, loss_avg_un, loss_avg_noise] = control_softrobot(budget
             delta_inte = [0; 0];
             delta = [0; 0];
 
+            % start robot tasks
             while k < floor(size(ref_sc, 1) / 27 * budget)
                 t = k * Ts;
 
-                % determination of target state
+                % determine the target state
                 if k + Np <= size(ref_sc, 1)
                     ref = ref_sc(k : k + Np, :);
                 else
@@ -358,14 +381,15 @@ function [sim, loss_avg, loss_avg_un, loss_avg_noise] = control_softrobot(budget
                 end
                 X_t = reshape(ref', [Np * size(ref, 2), 1]);
 
+                % solve input
                 XDyn = SRec(((X'))', k, XDyn, nd);
                 XOri = SRec(((X'))', k, XOri, n);
                 XDynLift = Fun2(XDyn);
                 XLift = Fun(XOri);
-
                 [U, delta_inte, delta] = LMPC('SoftRobot', XLift, U, Np, A, B, C, t, 0, X_t, kp, ki, kd, delta_inte, delta, 0, Ts, QQ, RR, PP);
+                
+                % update robot states with environmental disturbance
                 X = dynamic(XDynLift, U, DynA, DynB, DynC);
-
                 if jt == 1
                     Disgaus = dispac(k, :)';
                     Discons = [0.2; -0.3];
@@ -384,6 +408,8 @@ function [sim, loss_avg, loss_avg_un, loss_avg_noise] = control_softrobot(budget
                 X = X + Discons + Disgaus + amp * randn(2, 1);
 
                 k = k + 1;
+
+                % store robot state information
                 [v, ~] = min(sqrt((ref_sc(:, 1) - X(1, 1)).^2 + (ref_sc(:, 2) - X(2, 1)).^2));
                 sim.(struct_name{1, jt}).ee_noise = [sim.(struct_name{1, jt}).ee_noise; v];
                 sim.(struct_name{1, jt}).X_noise = [sim.(struct_name{1, jt}).X_noise; X'];
@@ -395,5 +421,4 @@ function [sim, loss_avg, loss_avg_un, loss_avg_noise] = control_softrobot(budget
         end
         loss_avg_noise = loss / jt;
     end
-    
 end
