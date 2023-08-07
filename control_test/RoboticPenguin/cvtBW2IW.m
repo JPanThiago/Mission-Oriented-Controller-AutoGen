@@ -8,7 +8,7 @@ function R = cvtBW2IW(roll, pitch)
     tanP = tan(pitch);
     cosP = cos(pitch);
 
-    R = [1 sinR * tanP  cosR * tanP; 
-         0        cosR        -sinR; 
-         0 sinR / cosP cosR / cosP];
+    R = [1, sinR * tanP,  cosR * tanP; 
+         0,        cosR,        -sinR; 
+         0, sinR / cosP, cosR / cosP];
 end
