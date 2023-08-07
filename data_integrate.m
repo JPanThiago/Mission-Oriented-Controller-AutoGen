@@ -64,7 +64,6 @@ for i = 0 : 1 : 161
         data_collection.train{1, numq}.u = u;
         numq = numq + 1;
     end
-
 end
 fname = ['data', filesep, classname, '.mat'];
 save(fname , 'data_collection');
@@ -160,7 +159,6 @@ for i = 0 : 1 : 8
     data_collection.train{1, i + 1}.x = x;
     data_collection.train{1, i + 1}.y = y;
     data_collection.train{1, i + 1}.u = u;
-
 end
 fname = ['data', filesep, classname, '.mat'];
 save(fname , 'data_collection');
@@ -185,7 +183,6 @@ for i = 0 : 1 : 8
     data_collection.train{1, i + 1}.x = x;
     data_collection.train{1, i + 1}.y = y;
     data_collection.train{1, i + 1}.u = u;
-
 end
 fname = ['data', filesep, classname, '.mat'];
 save(fname , 'data_collection');
