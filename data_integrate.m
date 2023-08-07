@@ -109,6 +109,37 @@ end
 fname = ['data', filesep, classname, '.mat'];
 save(fname , 'data_collection');
 
+%% AUV for 3D task
+classname = ['AUV_3D'];
+
+data_collection = {};
+nump = 1;
+numq = 1;
+for i = 0 : 1 : 59
+    data_load = load(['data\AUV_3D\', num2str(i), '.txt']);
+    t = data_load(:, end);
+    x = data_load(:, 4 : 15);
+    u = data_load(:, 1 : 3);
+    y = x;
+    
+    % create validation and training sets
+    if mod(i + 1, 6) == 0
+        data_collection.val{1, nump}.t = t;
+        data_collection.val{1, nump}.x = x;
+        data_collection.val{1, nump}.y = y;
+        data_collection.val{1, nump}.u = u;
+        nump = nump + 1;
+    else
+        data_collection.train{1, numq}.t = t;
+        data_collection.train{1, numq}.x = x;
+        data_collection.train{1, numq}.y = y;
+        data_collection.train{1, numq}.u = u;
+        numq = numq + 1;
+    end
+end
+fname = ['data', filesep, classname, '.mat'];
+save(fname , 'data_collection');
+
 %% Renguin-Insipred Robot
 classname = ['RoboticPenguin'];
 
