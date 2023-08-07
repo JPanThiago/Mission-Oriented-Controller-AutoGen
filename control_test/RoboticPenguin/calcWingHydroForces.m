@@ -1,7 +1,7 @@
 %--------------------------------------------------------%
 %--- Wing hydrodynamics of the penguin-inspired robot ---%
 %--------------------------------------------------------%
-function F =  calcWingHydroForces(U, W, r, lp, lt, dlp, dlt, ddlp, ddlt, flag, Acce, cap, cdp,cah, cdh, cab, cdb, car)
+function F = calcWingHydroForces(U, W, r, lp, lt, dlp, dlt, ddlp, ddlt, flag, Acce, cap, cdp,cah, cdh, cab, cdb, car)
     %{
     U:  linear velocity of body w.r.t body-frame
     W:  angular velocity of body w.r.t body-frame
