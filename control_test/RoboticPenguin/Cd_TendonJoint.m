@@ -1,5 +1,7 @@
+%-------------------------------------------------------------------------------------------%
+%--- Calculate the tail lift-drag coefficient based on a back-propagation neural network ---%
+%-------------------------------------------------------------------------------------------%
 function final_outputs = Cd_TendonJoint(angle, wih_cfd, hidden_biascfd, who_cfd, final_cfd)
-    % calculate tail lift-drag coefficient based on back-propagation neural network
     angle = angle / 1.39626;
     hidden_inputs = wih_cfd * angle;
     hidden_outputs = activation_function(hidden_inputs + hidden_biascfd);
