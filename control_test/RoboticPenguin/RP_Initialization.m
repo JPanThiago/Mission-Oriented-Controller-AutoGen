@@ -34,9 +34,9 @@ glideParas.Ab = [glideParas.Sxx,              0,               0;
                               0,              0, glideParas.Szz];            
 
 glideParas.mall = 7.4;
-glideParas.J = [ 0.018713,        0,        0;
-                        0, 0.234470,        0;
-                        0,        0, 0.238203];
+glideParas.J = [0.018713,        0,         0;
+                       0, 0.234470,         0;
+                       0,        0, 0.238203];
                     
 %% wing coefficient   
 glideParas.leftWingPt = [0.066; -0.198; 0];
