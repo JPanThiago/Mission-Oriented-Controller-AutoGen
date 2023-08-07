@@ -66,7 +66,7 @@ function [sim, loss_avg, loss_avg_un, loss_avg_noise] = control_DP(budget, under
         for i = 1 : targetnum(1, jt)
             t = Ts * (i - 1);
             
-            % determine the target state based on the line-of-sight guidance
+            % determine the target state
             if jt == 1
                 Xtarget = 10 / 180 * pi * cos(t) + 5 / 180 * pi * cos(t * 2) - 15 / 180 * pi;
                 Ytarget = -10 / 180 * pi * sin(t) -5 / 180 * pi * sin(t * 2) * 2;
@@ -137,7 +137,7 @@ function [sim, loss_avg, loss_avg_un, loss_avg_noise] = control_DP(budget, under
             for i = 1 : targetnum(1, jt)
                 t = Ts * (i - 1);
 
-                % determine the target state based on the line-of-sight guidance
+                % determine the target state
                 if jt == 1
                     Xtarget = 10 / 180 * pi * cos(t) + 5 / 180 * pi * cos(t * 2) - 15 / 180 * pi;
                     Ytarget = -10 / 180 * pi * sin(t) -5 / 180 * pi * sin(t * 2) * 2;
@@ -206,6 +206,7 @@ function [sim, loss_avg, loss_avg_un, loss_avg_noise] = control_DP(budget, under
             % start robot tasks
             for i = 1 : targetnum(1, jt)
                 t = Ts * (i - 1);
+                
                 % determine the target state
                 if jt == 1
                     Xtarget = 10 / 180 * pi * cos(t) + 5 / 180 * pi * cos(t * 2) - 15 / 180 * pi;
@@ -276,6 +277,7 @@ function [sim, loss_avg, loss_avg_un, loss_avg_noise] = control_DP(budget, under
             % start robot tasks
             for i = 1 : targetnum(1, jt)
                 t = Ts * (i - 1);
+                
                 % determine the target state
                 if jt == 1
                     Xtarget = 10 / 180 * pi * cos(t) + 5 / 180 * pi * cos(t * 2) - 15 / 180 * pi;
