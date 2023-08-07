@@ -2,12 +2,13 @@
 %--- The control function of the soft robot where the Koopman-based control model is identical to the interaction model---%
 %-------------------------------------------------------------------------------------------------------------------------%
 function [sim, loss_avg_un] = control_SoftRobot_com()
-    %% Example_Unoptimized
-    % Preparation for unoptimized Koopman-based MPC test
+    %% Example of the soft robot for comparison
+    % Preparation
     struct_name = {'pacman' 'star' 'blockM'};
     [~, ~, sim, ~, ~] = store();
     address = {'pacman_c11_r3_90sec.mat' 'star_c11_8x8_120sec.mat' 'blockM_c11_6x6_180sec.mat'};
     
+    % import model
     model = load(['model_environment\', 'SoftRobot_type-poly_degree-2_delay-2.mat'] );
     A = model.koopman_model.model.A;
     B = model.koopman_model.model.B;
@@ -23,6 +24,7 @@ function [sim, loss_avg_un] = control_SoftRobot_com()
     loss = 0;
     Ts = 0.083023892317701;
 
+    % determine controller parameters
     kp = 0;
     ki = 0;
     kd = 0;
@@ -31,6 +33,7 @@ function [sim, loss_avg_un] = control_SoftRobot_com()
     RR = 1000;
     PP = 1;
 
+    % initialization
     for jt = 1 : 3
         temp = load(['ref_trajectories\', address{1, jt}]);
         ref = temp.ref;
@@ -44,10 +47,11 @@ function [sim, loss_avg_un] = control_SoftRobot_com()
         delta_inte = [0; 0];
         delta = [0; 0];
 
+        % start robot tasks
         while k < floor(size(ref_sc, 1))
             t = k * Ts;
 
-            % determination of target state
+            % determine the target state
             if k + Np <= size(ref_sc, 1)
                 ref = ref_sc(k : k + Np, :);
             else
@@ -64,14 +68,19 @@ function [sim, loss_avg_un] = control_SoftRobot_com()
             end
             X_t = reshape(ref', [Np * size(ref, 2), 1]);
 
+            % solve input
             XDyn = SRec(((X'))', k, XDyn, nd);
             XOri = SRec(((X'))', k, XOri, n);
             XDynLift = Fun2(XDyn);
             XLift = Fun(XOri);
             [U, delta_inte, delta] = LMPC('SoftRobot', XLift, U, Np, A, B, C, t, 0, X_t, kp, ki, kd, delta_inte, delta, 0, Ts, QQ, RR, PP);
+            
+            % update robot states
             X = dynamic(XDynLift, U, DynA, DynB, DynC);
 
             k = k + 1;
+
+            % store robot state information
             [v, ~] = min(sqrt((ref_sc(:, 1) - X(1, 1)).^2 + (ref_sc(:, 2) - X(2, 1)).^2));
             sim.(struct_name{1, jt}).ee_un = [sim.(struct_name{1, jt}).ee_un; v];
             sim.(struct_name{1, jt}).X_un = [sim.(struct_name{1, jt}).X_un; X'];
@@ -82,5 +91,5 @@ function [sim, loss_avg_un] = control_SoftRobot_com()
         sim.(struct_name{1, jt}).loss_un = sum(sim.(struct_name{1, jt}).ee_un) / (k - 1);
         loss = loss + sim.(struct_name{1, jt}).loss_un;
     end
-    loss_avg_un = loss / 3;
+    loss_avg_un = loss / jt;
 end
