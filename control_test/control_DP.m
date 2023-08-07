@@ -10,6 +10,7 @@ function [sim, loss_avg, loss_avg_un, loss_avg_noise] = control_DP(budget, under
         failurecase = 'No';
     end
     warning off
+    
     %% Preparation
     % import model
     if strcmp(underopt, 'No')
@@ -27,8 +28,9 @@ function [sim, loss_avg, loss_avg_un, loss_avg_noise] = control_DP(budget, under
     Ts = 0.02;
     tspan = [0 Ts];
     
-    % the controller parameters obtained after underopt
+    % determine controller parameters
     if strcmp(underopt, 'No')
+        % the controller parameters obtained after underopt
         kp = 1.3;
         ki = 0; 
         kd = 0.013;
@@ -48,6 +50,7 @@ function [sim, loss_avg, loss_avg_un, loss_avg_noise] = control_DP(budget, under
     end
 
     %% Example_Optimized
+    % initialization
     targetnum = [315, 315, 629];
     targetnum = floor(targetnum / 27 * budget);
     [sim, ~, ~, ~, ~] = store();
@@ -58,11 +61,13 @@ function [sim, loss_avg, loss_avg_un, loss_avg_noise] = control_DP(budget, under
         delta = [0; 0];
         X = [0; 0];
         XOri = zeros((n+1)*length(X) + n, 1);
-        
+
+        % start robot tasks
         loopnum = targetnum(1, jt);
         for i = 1 : loopnum
             t = Ts * (i - 1);
-            % determine the target state
+            
+            % determine the target state based on the line-of-sight guidance
             if jt == 1
                 Xtarget = 10 / 180 * pi * cos(t) + 5 / 180 * pi * cos(t * 2) - 15 / 180 * pi;
                 Ytarget = -10 / 180 * pi * sin(t) -5 / 180 * pi * sin(t * 2) * 2;
@@ -74,13 +79,17 @@ function [sim, loss_avg, loss_avg_un, loss_avg_noise] = control_DP(budget, under
                 Ytarget = -10 / 180 * pi * sin(t) - 15 / 180 * pi * sin(t * 1.5);
             end
             X_t = [Xtarget; Ytarget];
-            
+
+            % solve input
             XOri = SRec(((X'))', i, XOri, n);
             XLift = Fun(XOri);
             [U, delta_inte, delta] = LMPC('DP', XLift, U, Np, A, B, C, t, jt, X_t, kp, ki, kd, delta_inte, delta, 0, Ts, QQ, RR, PP);
+            
+            % update robot states
             [~, y] = ode45(@(t,y) dynamic_DP(t, y, U), tspan, X);
             X = y(end, :)';
-            
+
+            % store robot state information
             [v, ~] = min(sqrt((sim.(struct_name{1, jt}).Xt(:, 1) - X(1, 1)).^2 + (sim.(struct_name{1, jt}).Xt(:, 2) - X(2, 1)).^2));
             sim.(struct_name{1, jt}).ee = [sim.(struct_name{1, jt}).ee; v];
             sim.(struct_name{1, jt}).X = [ sim.(struct_name{1, jt}).X ; X'];
@@ -108,6 +117,7 @@ function [sim, loss_avg, loss_avg_un, loss_avg_noise] = control_DP(budget, under
         Ts = 0.02;
         tspan = [0 Ts];
 
+        % determine controller parameters
         kp = 0;
         ki = 0; 
         kd = 0;
@@ -116,18 +126,20 @@ function [sim, loss_avg, loss_avg_un, loss_avg_noise] = control_DP(budget, under
         PP = 1;
         Np = 10;
 
+        % initialization
         for jt = 1 : 3
             U = 0;
             delta_inte = [0; 0];
             delta = [0; 0];
             X = [0; 0];
             XOri = zeros((n+1)*length(X) + n, 1);
-            
+
+            % start robot tasks
             loopnum = targetnum(1, jt);
             for i = 1 : loopnum
                 t = Ts * (i - 1);
 
-                % determine the target state
+                % determine the target state based on the line-of-sight guidance
                 if jt == 1
                     Xtarget = 10 / 180 * pi * cos(t) + 5 / 180 * pi * cos(t * 2) - 15 / 180 * pi;
                     Ytarget = -10 / 180 * pi * sin(t) -5 / 180 * pi * sin(t * 2) * 2;
@@ -140,12 +152,16 @@ function [sim, loss_avg, loss_avg_un, loss_avg_noise] = control_DP(budget, under
                 end
                 X_t = [Xtarget; Ytarget];
 
+                % solve input
                 XOri = SRec(((X'))', i, XOri, n);
                 XLift = Fun(XOri);
                 [U, delta_inte, delta] = LMPC('DP', XLift, U, Np, A, B, C, t, jt, X_t, kp, ki, kd, delta_inte, delta, 0, Ts, QQ, RR, PP);
+                
+                % update robot states
                 [~, y] = ode45(@(t,y) dynamic_DP(t, y, U), tspan, X);
                 X = y(end, :)';
 
+                % store robot state information
                 [v, ~] = min(sqrt((sim.(struct_name{1, jt}).Xt(:, 1) - X(1, 1)).^2 + (sim.(struct_name{1, jt}).Xt(:, 2) - X(2, 1)).^2));
                 sim.(struct_name{1, jt}).ee_un = [sim.(struct_name{1, jt}).ee_un; v];
                 sim.(struct_name{1, jt}).X_un = [ sim.(struct_name{1, jt}).X_un; X'];
@@ -160,8 +176,8 @@ function [sim, loss_avg, loss_avg_un, loss_avg_noise] = control_DP(budget, under
     
     %% Example with Data Noise
     if strcmp(datanoise, 'Yes')
+        % Preparation for optimized Koopman-based MPC test with sampling data noise
         model = load(['model_koopman\', 'model_DP_noise.mat']);
-
         A = model.koopman_model.model.A;
         B = model.koopman_model.model.B;
         C = model.koopman_model.model.C;
@@ -172,6 +188,7 @@ function [sim, loss_avg, loss_avg_un, loss_avg_noise] = control_DP(budget, under
         Ts = 0.02;
         tspan = [0 Ts];
         
+        % determine controller parameters
         kp = 1.4;
         ki = 0.75; 
         kd = 0.007;
@@ -180,6 +197,7 @@ function [sim, loss_avg, loss_avg_un, loss_avg_noise] = control_DP(budget, under
         PP = 5;
         Np = 15;
         
+        % initialization
         for jt = 1 : 3
             U = 0;
             delta_inte = [0; 0];
@@ -187,6 +205,7 @@ function [sim, loss_avg, loss_avg_un, loss_avg_noise] = control_DP(budget, under
             X = [0; 0];
             XOri = zeros((n+1)*length(X) + n, 1);
 
+            % start robot tasks
             loopnum = targetnum(1, jt);
             for i = 1 : loopnum
                 t = Ts * (i - 1);
@@ -203,12 +222,16 @@ function [sim, loss_avg, loss_avg_un, loss_avg_noise] = control_DP(budget, under
                 end
                 X_t = [Xtarget; Ytarget];
 
+                % solve input
                 XOri = SRec(((X'))', i, XOri, n);
                 XLift = Fun(XOri);
                 [U, delta_inte, delta] = LMPC('DP', XLift, U, Np, A, B, C, t, jt, X_t, kp, ki, kd, delta_inte, delta, 0, Ts, QQ, RR, PP);
+                
+                % update robot states
                 [~, y] = ode45(@(t,y) dynamic_DP(t, y, U), tspan, X);
                 X = y(end, :)';
 
+                % store robot state information
                 [v, ~] = min(sqrt((sim.(struct_name{1, jt}).Xt(:, 1) - X(1, 1)).^2 + (sim.(struct_name{1, jt}).Xt(:, 2) - X(2, 1)).^2));
                 sim.(struct_name{1, jt}).ee_noise = [sim.(struct_name{1, jt}).ee_noise; v];
                 sim.(struct_name{1, jt}).X_noise = [ sim.(struct_name{1, jt}).X_noise ; X'];
@@ -223,6 +246,7 @@ function [sim, loss_avg, loss_avg_un, loss_avg_noise] = control_DP(budget, under
     
     %% Example with Environmental Disturbance
     if strcmp(noise, 'Yes')
+        % Preparation for optimized Koopman-based MPC test with environmental disturbance
         rng(1)
         model = load(['model_koopman\', 'model_DP.mat']);
         A = model.koopman_model.model.A;
@@ -235,6 +259,7 @@ function [sim, loss_avg, loss_avg_un, loss_avg_noise] = control_DP(budget, under
         Ts = 0.02;
         tspan = [0 Ts];
 
+        % determine controller parameters
         kp = 1.3;
         ki = 0; 
         kd = 0.013;
@@ -242,6 +267,8 @@ function [sim, loss_avg, loss_avg_un, loss_avg_noise] = control_DP(budget, under
         RR = 900;
         PP = 8;
         Np = 8;
+        
+        % initialization
         for jt = 1 : 3
             U = 0;
             delta_inte = [0; 0];
@@ -249,6 +276,7 @@ function [sim, loss_avg, loss_avg_un, loss_avg_noise] = control_DP(budget, under
             X = [0; 0];
             XOri = zeros((n+1)*length(X) + n, 1);
 
+            % start robot tasks
             loopnum = targetnum(1, jt);
             for i = 1 : loopnum
                 t = Ts * (i - 1);
@@ -265,9 +293,12 @@ function [sim, loss_avg, loss_avg_un, loss_avg_noise] = control_DP(budget, under
                 end
                 X_t = [Xtarget; Ytarget];
 
+                % solve input
                 XOri = SRec(((X'))', i, XOri, n);
                 XLift = Fun(XOri);
                 [U, delta_inte, delta] = LMPC('DP', XLift, U, Np, A, B, C, t, jt, X_t, kp, ki, kd, delta_inte, delta, 0, Ts, QQ, RR, PP);
+                
+                % update robot states with environmental disturbance
                 [~, y] = ode45(@(t,y) dynamic_DP(t, y, U), tspan, X);
                 if strcmp(failurecase, 'No')
                     amp = 0.000125; % The unit is radians, corresponding to 0.007°
@@ -276,6 +307,7 @@ function [sim, loss_avg, loss_avg_un, loss_avg_noise] = control_DP(budget, under
                 end
                 X = y(end, :)' + randn(2,1) * amp; 
 
+                % store robot state information
                 [v, ~] = min(sqrt((sim.(struct_name{1, jt}).Xt(:, 1) - X(1, 1)).^2 + (sim.(struct_name{1, jt}).Xt(:, 2) - X(2, 1)).^2));
                 sim.(struct_name{1, jt}).ee_noise = [sim.(struct_name{1, jt}).ee_noise; v];
                 sim.(struct_name{1, jt}).X_noise = [ sim.(struct_name{1, jt}).X_noise ; X'];
@@ -287,5 +319,4 @@ function [sim, loss_avg, loss_avg_un, loss_avg_noise] = control_DP(budget, under
         end
         loss_avg_noise = loss / jt;
     end
-    
 end
