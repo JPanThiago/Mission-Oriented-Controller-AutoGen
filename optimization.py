@@ -87,7 +87,7 @@ bohb = BOHB(configspace=space,
             min_budget=args.min_budget, max_budget=args.max_budget,
             eta=args.eta, min_points_in_model=args.min_points_in_model,
             random_fraction=args.random_fraction)
-res = bohb.run(n_iterations=args.n_iterations * bohb.max_SH_iter)
+res = bohb.run(n_iterations=args.n_iterations*bohb.max_SH_iter)
 
 # Step 4: Shutdown
 bohb.shutdown(shutdown_workers=True)
