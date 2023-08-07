@@ -1,5 +1,5 @@
 %-----------------------------------------------%
-%--- The control function of AUV for 3D task ---%
+%--- The control function of the AUV for 3D task ---%
 %-----------------------------------------------%
 function [sim, loss_avg, loss_avg_un] = control_AUV_3D(budget, underopt)
     if nargin < 1
