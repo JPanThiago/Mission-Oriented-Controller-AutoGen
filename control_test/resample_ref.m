@@ -3,5 +3,5 @@
 %-------------------------------------------------------------------------------------------------------%
 function ref_resampled = resample_ref(ref)
     tr = 0 : 0.083023892317701 : ref.t(end);
-    ref_resampled = interp1(ref.t , ref.y , tr);
+    ref_resampled = interp1(ref.t, ref.y, tr);
 end
