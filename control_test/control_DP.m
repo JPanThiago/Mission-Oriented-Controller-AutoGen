@@ -1,3 +1,6 @@
+%----------------------------------------------------%
+%--- The control function of the damping pendulum ---%
+%----------------------------------------------------%
 function [sim, loss_avg, loss_avg_un, loss_avg_noise] = control_DP(budget, underopt, datanoise, noise, failurecase)
     if nargin < 1
         budget = 27;
