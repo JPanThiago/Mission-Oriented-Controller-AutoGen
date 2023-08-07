@@ -29,6 +29,7 @@ function [sim, loss_avg, loss_avg_un, loss_avg_noise] = control_AUV(budget, unde
     
     % determine controller parameters
     if strcmp(underopt, 'No')
+        % determine controller parameters
         kp = 3.5;
         ki = 0.07;
         kd = 1;
