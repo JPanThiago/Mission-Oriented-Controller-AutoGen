@@ -5,7 +5,7 @@ classdef koopman
     properties
         params struct;  % system identification parameters
         lift struct;    % lifting functions
-        basis struct;   % contains the observables for the system
+        basis struct;   % observables for the system
       
         model;          % Koopman-based model matrices
         KPmodel;        % Koopman-based model
