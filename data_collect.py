@@ -26,7 +26,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
     main()
     
-    # Collect data for autonomous underwater vehicles
+    # Collect data for the planar task of autonomous underwater vehicles
     parser = argparse.ArgumentParser()
     parser.add_argument("--env", type=str, default="AUV")
     parser.add_argument("--traj_num", type=int, default=1000)
