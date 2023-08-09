@@ -1,6 +1,6 @@
-%-------------------------------------------------------------------------------------------------------------------------%
-%--- The control function of the soft robot where the Koopman-based control model is identical to the interaction model---%
-%-------------------------------------------------------------------------------------------------------------------------%
+%---------------------------------------------------------------------------------------------------------------------------------------%
+%--- The control function of the soft robot where the Koopman-based control model is identical to the Koopman-based interaction model---%
+%---------------------------------------------------------------------------------------------------------------------------------------%
 function [sim, loss_avg_un] = control_SoftRobot_com()
     %% Example of the soft robot for comparison
     % Preparation
