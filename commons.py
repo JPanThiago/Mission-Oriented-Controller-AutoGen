@@ -2,10 +2,10 @@
 This is a class for computing objective function
 ===========================================================================
 Functions:
-    compute: Compute loss
+    compute: Compute objective function
     write_control_to_file: Write the hyperparameters of the controller to the file "parameter/parameter_controller.txt"
     write_list_to_file: Write the hyperparameters of the Koopman model to the file "parameter/parameter_lifting.txt"
-    get_configspace: Construct the hyperparameter search space config_space
+    get_configspace: Construct the hyperparameter search space "config_space"
 """
 
 import numpy as np
