@@ -1,7 +1,7 @@
 %-----------------------------------------%
 %--- Integrate robot state-input pairs ---%
 %-----------------------------------------%
-%% DP
+%% Damping Pendulum
 classname = ['DP'];
 
 data_collection = {};
@@ -32,7 +32,7 @@ end
 fname = ['data' , filesep , classname, '.mat'];
 save(fname , 'data_collection');
 
-%% TDVPT
+%% Tendon-Driven Visual Pan-Tilt
 classname = ['TDVPT'];
 
 data_collection = {};
