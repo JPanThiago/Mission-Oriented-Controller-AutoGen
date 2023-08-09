@@ -202,7 +202,7 @@ function [U, delta_inte, delta] = LMPC(robot, XLift, U, Np, ALift, BLift, CLift,
                         phi_tem = 3 * pi / 2;
                     end
                 else
-                    dx = - 1.8 * sin(w * (t + p * Ts)) * (1 + sin(w * (t + p * Ts)) * sin(w * (t + p * Ts))) - 2 * 1.8  * cos(w * (t + p * Ts))^2 * sin(w * (t + p * Ts));
+                    dx = - 1.8 * sin(w * (t + p * Ts)) * (1 + sin(w * (t + p * Ts)) * sin(w * (t + p * Ts))) - 2 * 1.8 * cos(w * (t + p * Ts))^2 * sin(w * (t + p * Ts));
                     dy = 2.6 * (cos(w * (t + p * Ts))^2 - sin(w * (t + p * Ts))^2) * (1 + sin(w * (t + p * Ts)) * sin(w * (t + p * Ts))) - 2 * 2.6 * sin(w * (t + p * Ts))^2 * cos(w * (t + p * Ts))^2;
                     phi_tem = atan2(dy, dx);
                 end
