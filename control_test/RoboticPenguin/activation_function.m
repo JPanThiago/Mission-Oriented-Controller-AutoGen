@@ -1,6 +1,6 @@
-%--------------------------------------------------------------------%
-%--- The activation function for back-propagation neural networks ---%
-%--------------------------------------------------------------------%
+%-------------------------------------------------------------------%
+%--- The activation function for back-propagation neural network ---%
+%-------------------------------------------------------------------%
 function final_outputs = activation_function(input)
     final_outputs = input;
     for i = 1 : length(input)
