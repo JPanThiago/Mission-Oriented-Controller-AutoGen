@@ -82,10 +82,10 @@ Meanwhile, the Python packages that need to be followed include
   </div>
 
 ## Running Example
-**Note**: All the cases are solved online, so it may take a few minutes to obtain the results.
+**Note**: Most cases are solved online, so it may take a few minutes to obtain the results.
 * Simulation: `run example_simulation.m`, `run example_simulation_datanoise.m`
 
-  This visualization illustrates the simulation results of path tracking for various robots, including the DP, TDVPT, soft robot, and AUV. The primary focus is on examining the impact of the un-optimized Koopman-based Model Predictive Control (MPC) and the proposed control generation algorithm. Additionally, simulation results under data sampling noise are also presented.
+  This visualization illustrates the simulation results of path tracking for various robots, including the DP, TDVPT, soft robot, and AUV. The primary focus is on examining the impact of the un-optimized Koopman-based Model Predictive Control (MPC) and the proposed controller generation algorithm. Additionally, simulation results under data sampling noise are also presented.
   
 * Penguin-Inspired Robot: `run example_RoboticPenguin.m`, `run example_RoboticPenguin_full.m`
 
@@ -115,8 +115,8 @@ Folder  | Description
 | :--- | :---
 control_test  | The control code includes the dynamics and MPC for various robots. Specifically, the subfolder ''[Robotic Penguin](/control_test/RoboticPenguin/)'' contains the dynamics of the penguin-inspired robot.
 data  | The pre-sampling dataset for training models.
-model_environment  | The un-optimized Koopman models for comparative experiments and environment construction of the TDVPT and soft robot.
-model_koopman  | The optimized Koopman models.
+model_environment  | The un-optimized Koopman-based models for comparative experiments and environment construction of the TDVPT and soft robot.
+model_koopman  | The optimized Koopman-based models.
 model_koopman_tem  | Koopman-based models stored during optimization.
 parameter  | Detailed parameters stored during optimization.
 ref_trajectories  | Soft robot trajectories provided by [Bruder *et al*](https://github.com/ramvasudevan/soft-robot-koopman).
