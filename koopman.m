@@ -249,7 +249,7 @@ classdef koopman
             % extract snapshot
             [x, y, u] = deal(snapshotPairs.alpha, snapshotPairs.beta, snapshotPairs.u);
 
-            % organize the data corresponding to the original equation (9)
+            % organize the data corresponding to the equation (9)
             N = obj.params.N ;
             Px = zeros(N, N);
             Py = zeros(N, N);  
@@ -260,7 +260,7 @@ classdef koopman
                 Py = Py + [psiy, u(i, :)]' * [psix, u(i, :)];
             end
             
-            % solve the minimum-norm closed-form solution, corresponding to the original equation (8)
+            % solve the minimum-norm closed-form solution, corresponding to the equation (8)
             UT = Py * pinv(Px);
             
             % save the Koopman operator
