@@ -260,7 +260,7 @@ classdef koopman
                 Py = Py + [psiy, u(i, :)]' * [psix, u(i, :)];
             end
             
-            % solve the minimum-norm closed-form solution, corresponding to the original equation 8
+            % solve the minimum-norm closed-form solution, corresponding to the original equation (8)
             UT = Py * pinv(Px);
             
             % save the Koopman operator
