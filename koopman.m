@@ -341,7 +341,7 @@ classdef koopman
             results.sim.pret = pret;
         end
         
-        % calculate prediction and real data based on the attenuation factor
+        % calculate prediction errors based on the attenuation factor
         function [datalength, preydata, realdata] = get_error(obj, simdata, realdata)
             % extract real data
             real = zeros(size(simdata.prey, 1), size(simdata.prey, 2));
