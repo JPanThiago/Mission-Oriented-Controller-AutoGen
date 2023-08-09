@@ -310,7 +310,7 @@ classdef koopman
                 zreal(i, :) = obj.lift.full([zetareal(i, :)'])';
             end
             
-            % predict the future horizon based on the current time step
+            % predict the future state based on the current state
             prey = zeros(size(yreal, 1) - obj.horizon + 1, obj.params.n * obj.horizon);
             prey(:, 1 : obj.params.n) = yreal(1 : size(yreal, 1) - obj.horizon + 1, :); 
             pret = zeros(size(yreal, 1) - obj.horizon + 1, obj.horizon);
