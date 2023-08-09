@@ -236,7 +236,7 @@ classdef koopman
             % random sampling without repetition
             total = size(before.zeta, 1);
             s = RandStream('mlfg6331_64'); 
-            index = datasample(s, 1 : total, size(before.zeta, 1), 'Replace', false); %æ½æ ·æ?
+            index = datasample(s, 1 : total, size(before.zeta, 1), 'Replace', false);
             
             % save snapshotPairs
             snapshotPairs.alpha = before.zeta(index, :); 
@@ -249,7 +249,7 @@ classdef koopman
             % extract snapshot
             [x, y, u] = deal(snapshotPairs.alpha, snapshotPairs.beta, snapshotPairs.u);
 
-            % organize the data corresponding to the original equation 9
+            % organize the data corresponding to the original equation (9)
             N = obj.params.N ;
             Px = zeros(N, N);
             Py = zeros(N, N);  
