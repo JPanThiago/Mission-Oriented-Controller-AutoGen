@@ -4,7 +4,7 @@
 close all
 clear 
 addpath(genpath('.\control_test'));
-addpath (genpath('.\parameter'));
+addpath(genpath('.\parameter'));
 
 [sim, AUV_loss_avg, AUV_loss_avg_un] = control_AUV_3D();
 
