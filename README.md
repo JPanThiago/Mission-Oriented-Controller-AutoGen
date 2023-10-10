@@ -1,7 +1,7 @@
 # Auto-Generation of Mission-Oriented Robot Controllers Using Bayesian-Based Koopman Operator
 This code can be employed to generate controllers for various robots with diverse data sources. Meanwhile, example scripts including the damping pendulum (DP), tendon-driven visual pan-tilt (TDVPT), soft robot, autonomous underwater vehicles (AUV), and penguin-inspired robot are provided for recreating these models and controllers on your machine.
 
-![](https://github.com/JPanThiago/mission_oriented_controller_autogeneration_framework/blob/main/fig.alg.jpg)
+![](https://github.com/JPanThiago/Mission-Oriented-Controller-AutoGen/blob/main/fig.alg.jpg)
 
 ## Environment Configuration
 Notably, the optimization program is implemented in Python, while the control program considers the sampled data from [Bruder *et al*.](https://github.com/ramvasudevan/soft-robot-koopman) and the constructed robotic penguin, both implemented in MATLAB. Therefore, environment configuration requires considering the integration of Python with MATLAB.
